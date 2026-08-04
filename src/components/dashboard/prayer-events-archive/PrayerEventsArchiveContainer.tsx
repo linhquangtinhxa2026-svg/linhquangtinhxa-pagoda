@@ -50,7 +50,7 @@ export function PrayerEventsArchiveContainer() {
     const query = normalizeVietnamese(search);
     return events.filter(event =>
       normalizeVietnamese(
-        [event.registrantName, event.subjectName, event.phone, event.note].join(" ")
+        [event.registrantName, event.note].join(" ")
       ).includes(query)
     );
   }, [events, search]);

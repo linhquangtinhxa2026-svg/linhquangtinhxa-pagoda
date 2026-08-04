@@ -40,20 +40,6 @@ export function PrayerEventForm({ control }: PrayerEventFormProps) {
           label={t("prayerEvents.registrantLabel")}
           placeholder={t("prayerEvents.registrantPlaceholder")}
         />
-        <AdminInputField
-          control={control}
-          name="subjectName"
-          label={t("prayerEvents.subjectLabel")}
-          placeholder={t("prayerEvents.subjectPlaceholder")}
-        />
-      </div>
-      <div className="grid grid-cols-2 gap-4">
-        <AdminInputField
-          control={control}
-          name="phone"
-          label={t("prayerEvents.phoneLabel")}
-          placeholder={t("prayerEvents.phonePlaceholder")}
-        />
         <div className="space-y-2">
           <AdminDatePickerField
             control={control}

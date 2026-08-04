@@ -88,8 +88,6 @@ export function PrayerEventDayList({
                   </div>
                   <div className="space-y-1">
                     <p className="text-sm font-bold text-foreground">{event.registrantName}</p>
-                    <p className="text-sm text-muted-foreground">{event.subjectName}</p>
-                    <p className="text-sm text-muted-foreground tabular-nums">{event.phone}</p>
                   </div>
                   {event.note && (
                     <p className="text-sm text-muted-foreground/80 pt-2 border-t border-border/50">

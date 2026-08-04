@@ -36,8 +36,6 @@ interface PrayerEventsTableProps {
 const COLUMNS = [
   "colType",
   "colRegistrant",
-  "colSubject",
-  "colPhone",
   "colLunarDate",
   "colNotes",
 ] as const;
@@ -139,12 +137,6 @@ export function PrayerEventsTable({
               </TableCell>
               <TableCell className="text-sm font-bold text-foreground px-4 py-4">
                 {event.registrantName}
-              </TableCell>
-              <TableCell className="text-sm font-bold text-foreground px-4">
-                {event.subjectName}
-              </TableCell>
-              <TableCell className="text-sm text-muted-foreground px-4">
-                {event.phone}
               </TableCell>
               <TableCell className="text-sm text-muted-foreground tabular-nums px-4 whitespace-nowrap">
                 {formatLunarDateFull(getLunarDateFromIso(event.eventDate))}

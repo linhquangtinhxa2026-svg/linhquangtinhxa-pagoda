@@ -5,8 +5,6 @@ export interface PrayerEvent {
   id: string;
   type: PrayerEventType;
   registrantName: string;
-  subjectName: string;
-  phone: string;
   eventDate: string; // ISO date (solar), e.g. "2026-08-03"
   note: string;
   isArchived: boolean;

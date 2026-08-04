@@ -28,8 +28,6 @@ interface PrayerEventModalProps {
 const baseDefaultValues: PrayerEventFormData = {
   type: "",
   registrantName: "",
-  subjectName: "",
-  phone: "",
   eventDate: "",
   note: "",
 };
@@ -51,8 +49,6 @@ export function PrayerEventModal({ state, onClose }: PrayerEventModalProps) {
       reset({
         type: state.event.type,
         registrantName: state.event.registrantName,
-        subjectName: state.event.subjectName,
-        phone: state.event.phone,
         eventDate: state.event.eventDate,
         note: state.event.note,
       });
