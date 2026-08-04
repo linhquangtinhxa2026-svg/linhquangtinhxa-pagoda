@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Quản Lý Danh Sách - Phiên Bản Cao Cấp</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #f4f6f9; margin: 0; padding: 20px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 1100px; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        h2 { color: #2c3e50; text-align: center; margin-bottom: 30px; }
+        .form-section, .search-section, .data-section, .stats-section { background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 25px; border: 1px solid #e9ecef; }
+        h3 { margin-top: 0; color: #495057; font-size: 1.1rem; border-bottom: 2px solid #dee2e6; padding-bottom: 8px; }
+        .form-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px; }
+        input[type="text"], select, textarea { width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 6px; font-size: 0.95rem; outline: none; background: white; }
+        input[type="text"]:focus, select:focus, textarea:focus { border-color: #228be6; box-shadow: 0 0 0 3px rgba(34, 139, 230, 0.1); }
+        textarea { resize: vertical; min-height: 80px; font-family: inherit; }
+        button { background: #228be6; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; margin-right: 5px; margin-bottom: 5px; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 5px; }
+        button:hover { background: #1c7ed6; }
+        .btn-green { background: #2b8a3e; }
+        .btn-green:hover { background: #237032; }
+        .btn-orange { background: #f76707; }
+        .btn-orange:hover { background: #d9480f; }
+        .btn-edit { background: #fcc419; color: #212529; }
+        .btn-edit:hover { background: #fab005; }
+        .btn-danger { background: #fa5252; }
+        .btn-danger:hover { background: #e03131; }
+        
+        /* Cải tiến khu vực Thống kê */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 5px; }
+        .stat-card { background: white; padding: 15px; border-radius: 6px; border-left: 4px solid #228be6; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .stat-card.green { border-left-color: #2b8a3e; }
+        .stat-card.orange { border-left-color: #f76707; }
+        .stat-label { font-size: 0.85rem; color: #868e96; font-weight: 600; text-transform: uppercase; }
+        .stat-value { font-size: 1.4rem; color: #212529; font-weight: bold; margin-top: 5px; }
+
+        /* --- CỐ ĐỊNH TIÊU ĐỀ BẢNG (STICKY HEADER) & ĐỘ CAO CUỘN --- */
+        .table-responsive { 
+            overflow-x: auto; 
+            width: 100%; 
+            margin-top: 15px; 
+            max-height: 70vh; /* Giới hạn độ cao vùng danh sách để thanh tiêu đề đứng yên khi cuộn */
+            overflow-y: auto;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+        }
+        table { width: 100%; border-collapse: collapse; min-width: 850px; }
+        
+        /* --- TỐI ƯU MOBILE: CHỐNG XUỐNG DÒNG, GỒM GÀNG --- */
+        th, td { 
+            padding: 12px 15px; 
+            text-align: left; 
+            border-bottom: 1px solid #dee2e6; 
+            vertical-align: middle;
+        }
+        th { 
+            background-color: #e9ecef; 
+            color: #495057; 
+            font-weight: 600; 
+            position: sticky; 
+            top: 0; 
+            z-index: 10;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        
+        /* Chia khoảng cách cột hiển thị thông minh */
+        table th:nth-child(1), table td:nth-child(1) { width: 70px; white-space: nowrap !important; font-weight: bold; }
+        table th:nth-child(2), table td:nth-child(2) { min-width: 200px; white-space: normal; } 
+        table th:nth-child(3), table td:nth-child(3) { width: 100px; white-space: nowrap; } 
+        table th:nth-child(4), table td:nth-child(4) { width: 140px; white-space: nowrap; } 
+        table th:nth-child(5), table td:nth-child(5) { min-width: 250px; white-space: pre-line; word-break: break-word; } 
+        table th:nth-child(6), table td:nth-child(6) { width: 140px; white-space: nowrap; } 
+
+        tr:hover { background-color: #f1f3f5; }
+        tr.editing-row { background-color: #fff9db !important; }
+        .no-result { text-align: center; color: #868e96; padding: 30px; font-style: italic; }
+        .delete-btn { background: #fa5252; padding: 6px 12px; font-size: 0.85rem; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        .delete-btn:hover { background: #e03131; }
+        .edit-btn { background: #1098ad; padding: 6px 12px; font-size: 0.85rem; color: white; border: none; border-radius: 4px; cursor: pointer; margin-right: 3px; }
+        .edit-btn:hover { background: #0b7285; }
+        .counter-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .counter { font-size: 0.9rem; color: #495057; font-weight: bold; }
+        .file-input-wrapper { display: inline-block; position: relative; }
+        .file-input-wrapper input[type="file"] { position: absolute; left: 0; top: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+        .filter-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px; }
+        .filter-item { display: flex; flex-direction: column; gap: 5px; font-size: 0.85rem; color: #495057; font-weight: 600; }
+        .pagination { display: flex; justify-content: center; align-items: center; gap: 5px; margin-top: 20px; flex-wrap: wrap; }
+        .pagination button { background: white; color: #228be6; border: 1px solid #ced4da; padding: 6px 12px; border-radius: 4px; font-weight: 500; margin: 0; }
+        .pagination button.active { background: #228be6; color: white; border-color: #228be6; }
+        .pagination button:disabled { background: #e9ecef; color: #adb5bd; border-color: #ced4da; cursor: not-allowed; }
+        #backToTopBtn { display: none; position: fixed; bottom: 40px; right: 40px; z-index: 99; border: none; outline: none; background-color: #228be6; color: white; cursor: pointer; width: 45px; height: 45px; border-radius: 50%; font-size: 18px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: background 0.3s; }
+        #backToTopBtn:hover { background-color: #1c7ed6; }
+        .backup-notification { display: none; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; padding: 12px; border-radius: 6px; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.4; }
+
+        /* --- MÀU SẮC CHỮ ĐƯỢC TÔ NỔI BẬT KHÔNG DẤU --- */
+        .txt-highlight {
+            background-color: #fff3bf; /* Nền vàng sáng dịu */
+            color: #d9480f;            /* Chữ cam đỏ nổi bần bật */
+            padding: 1px 3px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>📋 HỆ THỐNG QUẢN LÝ DANH SÁCH</h2>
+
+    <div id="backupNotification" class="backup-notification"></div>
+
+    <div class="stats-section">
+        <h3>📊 Thống Kê Tổng Quan</h3>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Tổng hệ thống</div>
+                <div class="stat-value" id="statTotal">0 người</div>
+            </div>
+            <div class="stat-card green">
+                <div class="stat-label">Đang hiển thị (Đã lọc)</div>
+                <div class="stat-value" id="statFiltered">0 người</div>
+            </div>
+            <div class="stat-card orange">
+                <div class="stat-label">Đã có Số Điện Thoại</div>
+                <div class="stat-value" id="statHasPhone">0 người</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="data-section">
+        <h3>📂 Quản Lý File Dữ Liệu (Tránh Lỗi Trình Duyệt)</h3>
+        <p style="font-size: 0.9rem; color: #555; margin-top: 0;">Dữ liệu hiện tại đã được tự động lưu vào trình duyệt. Tuy nhiên, bạn nên xuất file cất đi để dự phòng mất máy hoặc cài lại win.</p>
+        
+        <button class="btn-green" onclick="exportToTXT()">💾 Tải File TXT (.txt)</button>
+        <button class="btn-green" style="background: #107c41;" onclick="exportToExcel(false)">📊 Xuất File EXCEL Đẹp (.xlsx)</button>
+        
+        <div class="file-input-wrapper">
+            <button class="btn-orange">📥 Nạp Dữ Liệu Từ File TXT</button>
+            <input type="file" id="fileInput" accept=".txt" onchange="importFromTXT(event)">
+        </div>
+        <div class="file-input-wrapper">
+            <button class="btn-orange" style="background: #e06666;">📥 Nhập Dữ Liệu Từ Excel</button>
+            <input type="file" id="excelFileInput" accept=".xlsx, .xls" onchange="importFromExcel(event)">
+        </div>
+        <button class="btn-danger" style="float: right;" onclick="clearAllData()">🗑️ Xóa Sạch Dữ Liệu</button>
+        <div style="clear: both;"></div>
+    </div>
+
+    <div class="form-section">
+        <h3 id="formTitle">Thêm Thống Kê Mới</h3>
+        <input type="hidden" id="editEmployeeId" value="">
+        <div class="form-group">
+            <input type="text" id="fullNameInput" placeholder="Họ và tên (Bắt buộc)" style="text-transform: capitalize;">
+            <input type="text" id="ageOfDeath" placeholder="Tuổi mất">
+            <input type="text" id="phone" placeholder="Số điện thoại">
+        </div>
+        <div style="margin-bottom: 15px;">
+            <textarea id="privateInfo" placeholder="Thông tin riêng... (Có thể nhập nhiều dòng, ô tự kéo giãn hoặc nhập Lầu 1, Lầu 2... để lọc)"></textarea>
+        </div>
+        <div id="formActions">
+            <button id="submitBtn" onclick="addEmployee()">Thêm Vào Danh Sách</button>
+        </div>
+    </div>
+
+    <div class="search-section">
+        <h3>🔍 Tìm Kiếm Nhanh & Bộ Lọc Nâng Cao</h3>
+        <div class="search-box">
+            <input type="text" id="searchKey" placeholder="Nhập tên (tìm được cả KHÔNG DẤU), tuổi mất, sđt để tìm..." oninput="filterAndSearch()">
+        </div>
+        
+        <div class="filter-grid">
+            <div class="filter-item">
+                <label for="filterLocation">Lọc nhanh theo Vị trí / Lầu (Tìm trong thông tin riêng)</label>
+                <select id="filterLocation" onchange="filterAndSearch()">
+                    <option value="">-- Tất cả vị trí --</option>
+                    <option value="Lầu 1">Lầu 1</option>
+                    <option value="Lầu 2">Lầu 2</option>
+                    <option value="Mặt trước">Mặt trước</option>
+                    <option value="Mặt trong">Mặt trong</option>
+                    <option value="GĐ">Giai đoạn (GĐ)</option>
+                </select>
+            </div>
+            <div class="filter-item">
+                <label for="sortOrder">Sắp xếp dữ liệu</label>
+                <select id="sortOrder" onchange="filterAndSearch()">
+                    <option value="default">Mặc định (STT Nhập gốc)</option>
+                    <option value="nameAsc">Tên tăng dần (A -> Z)</option>
+                    <option value="ageDesc">Tuổi mất cao nhất xếp trước</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="list-section">
+    <h3>Danh Sách Kết Quả</h3>
+    <div class="pagination" id="paginationWrapperTop" style="margin-top: 0; margin-bottom: 15px;"></div>
+    
+    <div class="counter-flex">
+            <div class="counter" id="totalCounter">Tổng số lượng: 0 người</div>
+            <div class="counter" id="pageIndicator" style="color: #666; font-weight: normal;">Trang 1/1</div>
+        </div>
+        
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Họ và Tên Đầy Đủ</th>
+                        <th>Tuổi Mất</th>
+                        <th>Số Điện Thoại</th> 
+                        <th>Thông Tin Riêng</th>
+                        <th>Hành động</th>
+                    </tr>
+                </thead>
+                <tbody id="employeeTableBody"></tbody>
+            </table>
+        </div>
+
+        <div class="pagination" id="paginationWrapper"></div>
+    </div>
+</div>
+
+<button id="backToTopBtn" onclick="scrollToTop()" title="Cuộn lên đầu trang">▲</button>
+
+<script>
+    let employees = JSON.parse(localStorage.getItem("manager_data")) || [];
+    let processedList = []; 
+    let currentPage = 1;
+    const rowsPerPage = 50;
+    let sessionAddCounter = 0;
+
+    const formInputs = ['fullNameInput', 'ageOfDeath', 'phone', 'privateInfo'];
+    formInputs.forEach(id => {
+        document.getElementById(id).addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                if(id !== 'privateInfo') { e.preventDefault(); }
+                document.getElementById('submitBtn').click();
+            }
+        });
+    });
+
+    window.onload = function() {
+        filterAndSearch();
+        initScrollTracking();
+    };
+
+    function saveData() {
+        localStorage.setItem("manager_data", JSON.stringify(employees));
+        updateStatsWidgets(); 
+    }
+
+    function capitalizeWords(str) {
+        return str.toLowerCase().replace(/(^|\s)\S/g, function(l) {
+            return l.toUpperCase();
+        });
+    }
+
+    function removeVietnameseTones(str) {
+        str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a");
+        str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g,"e");
+        str = str.replace(/ì|í|ị|ỉ|ĩ/g,"i");
+        str = str.replace(/ò|ó|ọ|ỏ|ã|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g,"o");
+        str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g,"u");
+        str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g,"y");
+        str = str.replace(/đ/g,"d");
+        str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, "A");
+        str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "E");
+        str = str.replace(/I|Í|Ị|Ỉ|Ĩ/g, "I");
+        str = str.replace(/Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g, "O");
+        str = str.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, "U");
+        str = str.replace(/Ỳ|Ý|Y|Ỷ|Ỹ/g, "Y");
+        str = str.replace(/Đ/g, "D");
+        str = str.replace(/\u0300|\u0301|\u0309|\u0303|\u0323/g, ""); 
+        str = str.replace(/\u02C6|\u0306|\u031B/g, ""); 
+        return str;
+    }
+
+    // --- HÀM TÌM KIẾM VÀ TỰ ĐỘNG HIGHLIGHT TỪ KHÓA CHÍNH XÁC ---
+    function getHighlightedHtml(originalText, searchKey) {
+        if (!originalText) return '-';
+        if (!searchKey || searchKey.trim() === "") return originalText;
+
+        const cleanSearch = removeVietnameseTones(searchKey.toLowerCase());
+        const cleanOriginal = removeVietnameseTones(originalText.toLowerCase());
+        
+        let index = cleanOriginal.indexOf(cleanSearch);
+        if (index === -1) return originalText;
+
+        let htmlResult = "";
+        let lastIndex = 0;
+
+        while (index !== -1) {
+            htmlResult += originalText.substring(lastIndex, index);
+            const matchedChunk = originalText.substring(index, index + searchKey.length);
+            htmlResult += `<span class="txt-highlight">${matchedChunk}</span>`;
+            
+            lastIndex = index + searchKey.length;
+            index = cleanOriginal.indexOf(cleanSearch, lastIndex);
+        }
+        htmlResult += originalText.substring(lastIndex);
+        return htmlResult;
+    }
+
+    function updateStatsWidgets() {
+        document.getElementById("statTotal").innerText = `${employees.length} người`;
+        document.getElementById("statFiltered").innerText = `${processedList.length} người`;
+        
+        const hasPhoneCount = employees.filter(emp => emp.phone && emp.phone !== '-').length;
+        document.getElementById("statHasPhone").innerText = `${hasPhoneCount} người`;
+    }
+
+    function filterAndSearch(keepPage = false) {
+        const searchKey = document.getElementById("searchKey").value.trim();
+        const cleanSearchKey = removeVietnameseTones(searchKey.toLowerCase());
+        
+        const locationFilter = document.getElementById("filterLocation").value.toLowerCase();
+        const sortOrder = document.getElementById("sortOrder").value;
+
+        processedList = employees.filter(emp => {
+            const name = (emp.fullName || '').toLowerCase();
+            const age = (emp.ageOfDeath || '').toLowerCase();
+            const phone = (emp.phone || '').toLowerCase();
+            const info = (emp.privateInfo || '').toLowerCase();
+            
+            const matchesSearch = removeVietnameseTones(name).includes(cleanSearchKey) || 
+                                  removeVietnameseTones(age).includes(cleanSearchKey) || 
+                                  removeVietnameseTones(phone).includes(cleanSearchKey) || 
+                                  removeVietnameseTones(info).includes(cleanSearchKey);
+                                  
+            const matchesLocation = locationFilter === "" || info.includes(locationFilter);
+
+            return matchesSearch && matchesLocation;
+        });
+
+        if (sortOrder === "nameAsc") {
+            processedList.sort((a, b) => (a.fullName || '').localeCompare(b.fullName || '', 'vi'));
+        } else if (sortOrder === "ageDesc") {
+            processedList.sort((a, b) => {
+                const ageA = parseInt(a.ageOfDeath) || 0;
+                const ageB = parseInt(b.ageOfDeath) || 0;
+                return ageB - ageA;
+            });
+        }
+
+        const totalPages = Math.ceil(processedList.length / rowsPerPage) || 1;
+        if (!keepPage) {
+            currentPage = 1;
+        } else {
+            if (currentPage > totalPages) currentPage = totalPages;
+        }
+        
+        renderTablePage();
+        updateStatsWidgets(); 
+    }
+
+    function renderTablePage() {
+        const tableBody = document.getElementById("employeeTableBody");
+        tableBody.innerHTML = "";
+        
+        const totalItems = processedList.length;
+        document.getElementById("totalCounter").innerText = `Tổng số lượng: ${totalItems} người`;
+        const currentEditId = document.getElementById("editEmployeeId").value;
+        
+        // FIX LỖI TẠI ĐÂY: Đã định nghĩa biến lấy text của ô searchKey để làm mốc highlight chuỗi text
+        const searchKey = document.getElementById("searchKey") ? document.getElementById("searchKey").value.trim() : "";
+
+        if (totalItems === 0) {
+            tableBody.innerHTML = `<tr><td colspan="6" class="no-result">Danh sách đang trống hoặc không có kết quả phù hợp.</td></tr>`;
+            document.getElementById("paginationWrapper").innerHTML = "";
+            document.getElementById("paginationWrapperTop").innerHTML = "";
+            document.getElementById("pageIndicator").innerText = "Trang 0/0";
+            return;
+        }
+
+        const totalPages = Math.ceil(totalItems / rowsPerPage) || 1;
+        if (currentPage > totalPages) currentPage = totalPages;
+
+        document.getElementById("pageIndicator").innerText = `Trang ${currentPage}/${totalPages}`;
+
+        const startIndex = (currentPage - 1) * rowsPerPage;
+        const endIndex = Math.min(startIndex + rowsPerPage, totalItems);
+        const pageData = processedList.slice(startIndex, endIndex);
+
+        let rowsHtml = "";
+        pageData.forEach((emp, index) => {
+            const actualSTT = startIndex + index + 1;
+            const isEditing = currentEditId == emp.id ? 'class="editing-row"' : '';
+            
+            const highlightedName = getHighlightedHtml(emp.fullName, searchKey);
+            const highlightedAge = emp.ageOfDeath && emp.ageOfDeath !== '-' ? getHighlightedHtml(emp.ageOfDeath, searchKey) : '-';
+            const highlightedPhone = emp.phone && emp.phone !== '-' ? getHighlightedHtml(emp.phone, searchKey) : '-';
+            const highlightedInfo = emp.privateInfo && emp.privateInfo !== '-' ? getHighlightedHtml(emp.privateInfo, searchKey) : '-';
+
+            rowsHtml += `
+                <tr ${isEditing}>
+                    <td>${actualSTT}</td>
+                    <td><strong>${highlightedName}</strong></td>
+                    <td><span style="color: #e03131; font-weight: 500;">${highlightedAge}</span></td>
+                    <td><span style="color: #228be6; font-weight: 500;">${highlightedPhone}</span></td>
+                    <td><em>${highlightedInfo}</em></td>
+                    <td>
+                        <button class="edit-btn" onclick="startEditEmployee(${emp.id})">Sửa</button>
+                        <button class="delete-btn" onclick="deleteEmployee(${emp.id})">Xóa</button>
+                    </td>
+                </tr>
+            `;
+        });
+        tableBody.innerHTML = rowsHtml;
+        renderPaginationControls(totalPages);
+    }
+
+   function renderPaginationControls(totalPages) {
+    const wrapperBottom = document.getElementById("paginationWrapper");
+    const wrapperTop = document.getElementById("paginationWrapperTop");
+    
+    wrapperBottom.innerHTML = "";
+    wrapperTop.innerHTML = "";
+    if (totalPages <= 1) return;
+
+    function createControls(wrapper) {
+        const prevBtn = document.createElement("button");
+        prevBtn.innerText = "◀";
+        prevBtn.disabled = (currentPage === 1);
+        prevBtn.onclick = () => { if (currentPage > 1) { currentPage--; renderTablePage(); scrollToTop(); } };
+        wrapper.appendChild(prevBtn);
+
+        let startPage = Math.max(1, currentPage - 2);
+        let endPage = Math.min(totalPages, currentPage + 2);
+
+        if (currentPage <= 3) { endPage = Math.min(totalPages, 5); }
+        if (currentPage >= totalPages - 2) { startPage = Math.max(1, totalPages - 4); }
+
+        if (startPage > 1) {
+            const firstBtn = document.createElement("button");
+            firstBtn.innerText = 1;
+            firstBtn.onclick = () => { currentPage = 1; renderTablePage(); scrollToTop(); };
+            wrapper.appendChild(firstBtn);
+
+            if (startPage > 2) {
+                const dots = document.createElement("span");
+                dots.innerText = "...";
+                dots.style.padding = "0 5px";
+                wrapper.appendChild(dots);
+            }
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+            const pageBtn = document.createElement("button");
+            pageBtn.innerText = i;
+            if (i === currentPage) pageBtn.classList.add("active");
+            pageBtn.onclick = () => { currentPage = i; renderTablePage(); scrollToTop(); };
+            wrapper.appendChild(pageBtn);
+        }
+
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) {
+                const dots = document.createElement("span");
+                dots.innerText = "...";
+                dots.style.padding = "0 5px";
+                wrapper.appendChild(dots);
+            }
+            const lastBtn = document.createElement("button");
+            lastBtn.innerText = totalPages;
+            lastBtn.onclick = () => { currentPage = totalPages; renderTablePage(); scrollToTop(); };
+            wrapper.appendChild(lastBtn);
+        }
+
+        const nextBtn = document.createElement("button");
+        nextBtn.innerText = "▶";
+        nextBtn.disabled = (currentPage === totalPages);
+        nextBtn.onclick = () => { if (currentPage < totalPages) { currentPage++; renderTablePage(); scrollToTop(); }; };
+        wrapper.appendChild(nextBtn);
+    }
+
+    createControls(wrapperTop);
+    createControls(wrapperBottom);
+}
+
+    function addEmployee() {
+        let fullName = document.getElementById("fullNameInput").value.trim();
+        const ageOfDeath = document.getElementById("ageOfDeath").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+        const privateInfo = document.getElementById("privateInfo").value.trim();
+        const editId = document.getElementById("editEmployeeId").value;
+
+        if (!fullName) {
+            alert("Vui lòng nhập đầy đủ Họ và Tên!");
+            document.getElementById("fullNameInput").focus();
+            return;
+        }
+
+        fullName = capitalizeWords(fullName);
+
+        if (editId) {
+            const index = employees.findIndex(emp => emp.id == editId);
+            if (index !== -1) {
+                employees[index].fullName = fullName;
+                employees[index].ageOfDeath = ageOfDeath ? ageOfDeath : "-";
+                employees[index].phone = phone ? phone : "-";
+                employees[index].privateInfo = privateInfo ? privateInfo : "-";
+            }
+            clearForm();
+            alert("Cập nhật thông tin thành công!");
+            filterAndSearch(true);
+        } else {
+            const newEmp = {
+                id: Date.now(),
+                fullName: fullName,
+                ageOfDeath: ageOfDeath ? ageOfDeath : "-",
+                phone: phone ? phone : "-",
+                privateInfo: privateInfo ? privateInfo : "-"
+            };
+
+            employees.push(newEmp);
+            clearForm();
+
+            sessionAddCounter++;
+            if (sessionAddCounter >= 35) {
+                exportToExcel(true);
+                sessionAddCounter = 0;
+            }
+            filterAndSearch();
+        }
+        saveData();
+        document.getElementById("fullNameInput").focus();
+    }
+
+    function startEditEmployee(id) {
+        const emp = employees.find(e => e.id == id);
+        if (!emp) return;
+
+        document.getElementById("editEmployeeId").value = emp.id;
+        document.getElementById("fullNameInput").value = emp.fullName === "-" ? "" : emp.fullName;
+        document.getElementById("ageOfDeath").value = emp.ageOfDeath === "-" ? "" : emp.ageOfDeath;
+        document.getElementById("phone").value = emp.phone === "-" ? "" : emp.phone;
+        document.getElementById("privateInfo").value = emp.privateInfo === "-" ? "" : emp.privateInfo;
+
+        document.getElementById("formTitle").innerText = "✏️ Cập Nhật Thông Tin";
+        document.getElementById("formActions").innerHTML = `
+            <button class="btn-edit" id="submitBtn" onclick="addEmployee()">Cập Nhật Thay Đổi</button>
+            <button style="background:#868e96;" onclick="clearForm()">Hủy Bỏ</button>
+        `;
+        renderTablePage();
+        window.scrollTo({ top: document.getElementById("formTitle").offsetTop - 20, behavior: 'smooth' });
+        document.getElementById("fullNameInput").focus();
+    }
+
+    function clearForm() {
+        document.getElementById("editEmployeeId").value = "";
+        document.getElementById("fullNameInput").value = "";
+        document.getElementById("ageOfDeath").value = "";
+        document.getElementById("phone").value = "";
+        document.getElementById("privateInfo").value = "";
+        
+        document.getElementById("formTitle").innerText = "Thêm Thống Kê Mới";
+        document.getElementById("formActions").innerHTML = `<button id="submitBtn" onclick="addEmployee()">Thêm Vào Danh Sách</button>`;
+        renderTablePage();
+    }
+
+    function deleteEmployee(id) {
+        if (confirm("Bạn có chắc chắn muốn xóa dòng này?")) {
+            if(document.getElementById("editEmployeeId").value == id) { clearForm(); }
+            employees = employees.filter(emp => emp.id !== id);
+            saveData();
+            filterAndSearch(true);
+            document.getElementById("fullNameInput").focus();
+        }
+    }
+
+    function clearAllData() {
+        if (employees.length === 0) {
+            alert("Hệ thống hiện tại không có dữ liệu để xóa.");
+            return;
+        }
+        if (confirm("CẢNH BÁO: Hành động này sẽ xóa toàn bộ danh sách hiện tại của bạn trên trình duyệt! Bạn có chắc chắn muốn xóa không?")) {
+            if (confirm("Hãy xác nhận lại một lần nữa. Bạn đã tải file Excel sao lưu về máy chưa? Bấm OK để xóa vĩnh viễn.")) {
+                employees = [];
+                saveData();
+                clearForm();
+                filterAndSearch();
+                alert("Đã xóa toàn bộ dữ liệu thành công!");
+            }
+        }
+    }
+
+    function exportToExcel(isAutoBackup = false) {
+        if (employees.length === 0) {
+            if (!isAutoBackup) alert("Danh sách trống, không thể xuất file Excel!");
+            return;
+        }
+
+        const worksheetData = employees.map((emp, index) => ({
+            "STT": index + 1,
+            "Họ và Tên Đầy Đủ": emp.fullName || '-',
+            "Tuổi Mất": emp.ageOfDeath || '-',
+            "Số Điện Thoại": emp.phone || '-',
+            "Thông Tin Riêng": emp.privateInfo || '-'
+        }));
+
+        const worksheet = XLSX.utils.json_to_sheet(worksheetData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Danh Sách Tổng Hợp");
+
+        worksheet['!cols'] = [{wch: 6}, {wch: 30}, {wch: 12}, {wch: 20}, {wch: 50}];
+
+        if (isAutoBackup) {
+            XLSX.writeFile(workbook, "TuDong_SaoLuu_DanhSach.xlsx");
+            const notify = document.getElementById("backupNotification");
+            notify.innerHTML = `🔄 <b>Hệ thống tự động sao lưu:</b> Bạn vừa thêm thành công 35 dòng dữ liệu mới. Một bản sao lưu Excel (.xlsx) an toàn đã tự động tải về máy của bạn!`;
+            notify.style.display = "block";
+            setTimeout(() => { notify.style.display = "none"; }, 10000);
+        } else {
+            XLSX.writeFile(workbook, "Danh_Sach_Quan_Ly_Excel.xlsx");
+        }
+    }
+
+    function importFromExcel(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                const firstSheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[firstSheetName];
+                const jsonData = XLSX.utils.sheet_to_json(worksheet);
+
+                if (jsonData.length === 0) {
+                    alert("File Excel trống hoặc cấu trúc không phù hợp.");
+                    return;
+                }
+
+                if (confirm(`Tìm thấy dữ liệu của ${jsonData.length} người từ tệp Excel. Bạn có muốn nạp đè dữ liệu này vào hệ thống trình duyệt?`)) {
+                    employees = jsonData.map((row, i) => {
+                        return {
+                            id: Date.now() + i + Math.floor(Math.random() * 1000),
+                            fullName: capitalizeWords((row["Họ và Tên Đầy Đủ"] || row["fullName"] || "Không rõ tên").toString().trim()),
+                            ageOfDeath: (row["Tuổi Mất"] || row["ageOfDeath"] || "-").toString().trim(),
+                            phone: (row["Số Điện Thoại"] || row["phone"] || "-").toString().trim(),
+                            privateInfo: (row["Thông Tin Riêng"] || row["privateInfo"] || "-").toString().trim()
+                        };
+                    });
+
+                    saveData();
+                    clearForm();
+                    document.getElementById("searchKey").value = "";
+                    filterAndSearch();
+                    alert(`Nạp dữ liệu từ file Excel thành công! Tổng cộng: ${employees.length} người.`);
+                }
+            } catch (err) {
+                alert("Không thể đọc tệp Excel này. Vui lòng kiểm tra lại cấu trúc file mẫu.");
+            }
+        };
+        reader.readAsArrayBuffer(file);
+        event.target.value = ''; 
+    }
+
+    function exportToTXT() {
+        if (employees.length === 0) {
+            alert("Danh sách hiện tại đang trống, hãy thêm tên trước khi tải về!");
+            return;
+        }
+        let content = JSON.stringify(employees, null, 2);
+        let blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+        let link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "data_danh_sach.txt";
+        link.click();
+    }
+
+    function importFromTXT(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const data = JSON.parse(e.target.result);
+                if (Array.isArray(data)) {
+                    if(confirm(`Bạn có chắc chắn muốn nạp đè dữ liệu của ${data.length} người từ file vào hệ thống không?`)) {
+                        employees = data.map((emp, i) => {
+                            if (!emp.fullName && (emp.lastName || emp.firstName)) {
+                                emp.fullName = `${emp.lastName || ''} ${emp.firstName || ''}`.trim();
+                            }
+                            emp.fullName = capitalizeWords(emp.fullName || '');
+                            if (emp.yearOfDeath && !emp.ageOfDeath) {
+                                emp.ageOfDeath = emp.yearOfDeath;
+                            }
+                            emp.id = emp.id ? emp.id : (Date.now() + i);
+                            return emp;
+                        });
+                        saveData();
+                        clearForm();
+                        document.getElementById("searchKey").value = "";
+                        filterAndSearch();
+                        alert(`Nạp thành công dữ liệu của ${employees.length} người!`);
+                    }
+                } else {
+                    alert("Cấu trúc file không đúng chuẩn định dạng phần mềm!");
+                }
+            } catch (err) {
+                alert("Không thể đọc file TXT này.");
+            }
+        };
+        reader.readAsText(file);
+        event.target.value = '';
+    }
+
+    function initScrollTracking() {
+        const topBtn = document.getElementById("backToTopBtn");
+        window.onscroll = function() {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                topBtn.style.display = "block";
+            } else {
+                topBtn.style.display = "none";
+            }
+        };
+    }
+
+    function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>

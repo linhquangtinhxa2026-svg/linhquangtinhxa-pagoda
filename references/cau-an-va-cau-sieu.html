@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Lý Khách Hàng Theo Ngày</title>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: #1a2a3a;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            font-size: 24px;
+            letter-spacing: 0.5px;
+        }
+        h2 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        /* Khu vực nhập liệu */
+        .form-box {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 2fr 1.5fr 3fr auto;
+            gap: 15px;
+            align-items: flex-end;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .input-group label {
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #555;
+        }
+        .input-group input, .input-group textarea {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            outline: none;
+            transition: border 0.2s;
+            font-family: Arial, sans-serif;
+        }
+        .input-group input:focus, .input-group textarea:focus {
+            border-color: #3498db;
+        }
+        .input-group textarea {
+            height: 40px; 
+            resize: vertical;
+            box-sizing: border-box;
+        }
+        .btn-submit {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 11px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+            height: 40px;
+        }
+        .btn-submit:hover {
+            background-color: #2980b9;
+        }
+        .btn-submit.editing {
+            background-color: #27ae60;
+        }
+        .btn-submit.editing:hover {
+            background-color: #219653;
+        }
+
+        /* Khu vực Xuất/Nhập Excel mới thêm */
+        .excel-box {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 15px 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        .btn-excel-export {
+            background-color: #1f8043;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .btn-excel-export:hover {
+            background-color: #176133;
+        }
+        .import-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .import-group label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #444;
+        }
+
+        /* Khu vực Bộ lọc & Tìm kiếm */
+        .filter-box {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 15px 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        .filter-box .input-group {
+            flex: 1;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+        }
+        .filter-box .input-group label {
+            margin-bottom: 0;
+            white-space: nowrap;
+            font-weight: bold;
+        }
+        .filter-box .input-group input {
+            flex: 1;
+        }
+        .btn-clear {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        .btn-clear:hover {
+            background-color: #c0392b;
+        }
+
+        /* Khu vực bảng lịch trình */
+        .table-section {
+            text-align: center;
+        }
+        .table-section h2 {
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .table-wrapper {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            table-layout: fixed;
+        }
+        th, td {
+            padding: 14px 20px;
+            font-size: 14px;
+            word-wrap: break-word;
+            vertical-align: top;
+        }
+        th {
+            background-color: #f8f9fa;
+            color: #666;
+            font-weight: bold;
+            border-bottom: 2px solid #ededed;
+        }
+        td {
+            border-bottom: 1px solid #ededed;
+            color: #444;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .no-data {
+            text-align: center;
+            color: #999;
+            font-style: italic;
+        }
+        
+        .row-warning {
+            background-color: #fff0f0 !important;
+        }
+        .row-warning td {
+            color: #c0392b !important;
+            font-weight: bold;
+        }
+        .badge-warning {
+            background-color: #e74c3c;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 11px;
+            margin-left: 5px;
+            display: inline-block;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+        }
+        .btn-edit {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.2s;
+        }
+        .btn-edit:hover {
+            background-color: #2980b9;
+        }
+        .btn-delete {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.2s;
+        }
+        .btn-delete:hover {
+            background-color: #cc0000;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Hệ Thống Quản Lý Lịch Hẹn Khách Hàng</h1>
+
+    <div class="form-box">
+        <h2 id="formTitle">Thêm Khách Hàng Mới</h2>
+        <div class="form-grid">
+            <div class="input-group">
+                <label>Tên khách hàng:</label>
+                <input type="text" id="customerName" placeholder="Nhập họ tên...">
+            </div>
+            <div class="input-group">
+                <label>Mốc thời gian (Ngày):</label>
+                <input type="date" id="appointmentDate">
+            </div>
+            <div class="input-group">
+                <label>Ghi chú công việc:</label>
+                <textarea id="jobNote" placeholder="Ví dụ: Tư vấn dịch vụ, ký hợp đồng..."></textarea>
+            </div>
+            <button type="button" class="btn-submit" id="btnSchedule">Xếp Lịch</button>
+        </div>
+    </div>
+
+    <div class="excel-box">
+        <button type="button" class="btn-excel-export" id="btnExportExcel">📥 Xuất file Excel</button>
+        <div style="border-left: 1px solid #ccc; height: 30px; margin: 0 10px;"></div>
+        <div class="import-group">
+            <label for="btnImportExcel">📤 Nhập file Excel:</label>
+            <input type="file" id="btnImportExcel" accept=".xlsx, .xls">
+        </div>
+    </div>
+
+    <div class="filter-box">
+        <div class="input-group">
+            <label>🔍 Tìm kiếm tên:</label>
+            <input type="text" id="searchName" placeholder="Nhập tên khách hàng cần tìm...">
+        </div>
+        <div class="input-group">
+            <label>📅 Lọc theo ngày:</label>
+            <input type="date" id="filterDate">
+        </div>
+        <button type="button" class="btn-clear" id="btnClearFilter">Xóa Bộ Lọc</button>
+    </div>
+
+    <div class="table-section">
+        <h2>Bảng Lịch Trình Theo Ngày</h2>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">Tên khách hàng</th>
+                        <th style="width: 20%;">Mốc thời gian</th>
+                        <th style="width: 40%;">Ghi chú công việc</th>
+                        <th style="width: 15%; text-align: center;">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    let appointments = JSON.parse(localStorage.getItem('appointments')) || [];
+    let editId = null; 
+
+    function checkUrgent(rawDate) {
+        if (!rawDate) return false;
+        const today = new Date();
+        today.setHours(0,0,0,0);
+
+        const appointmentDate = new Date(rawDate);
+        appointmentDate.setHours(0,0,0,0);
+
+        const timeDiff = appointmentDate.getTime() - today.getTime();
+        const daysDiff = Math.round(timeDiff / (1000 * 3600 * 24));
+
+        return (daysDiff === 0 || daysDiff === 1);
+    }
+
+    function renderTable() {
+        const tableBody = document.getElementById('tableBody');
+        tableBody.innerHTML = ''; 
+
+        const searchKeyword = document.getElementById('searchName').value.toLowerCase().trim();
+        const filterDateValue = document.getElementById('filterDate').value;
+
+        let filteredList = appointments.filter(item => {
+            const matchesName = item.name ? item.name.toLowerCase().includes(searchKeyword) : false;
+            const matchesDate = filterDateValue === "" || item.rawDate === filterDateValue;
+            return matchesName && matchesDate;
+        });
+
+        if (filteredList.length === 0) {
+            tableBody.innerHTML = `
+                <tr>
+                    <td colspan="4" class="no-data">Chưa có lịch hẹn nào phù hợp hoặc được xếp.</td>
+                </tr>`;
+            return;
+        }
+
+        filteredList.sort((a, b) => new Date(a.rawDate) - new Date(b.rawDate));
+
+        filteredList.forEach(item => {
+            const newRow = document.createElement('tr');
+            
+            const isUrgent = checkUrgent(item.rawDate);
+            if (isUrgent) {
+                newRow.classList.add('row-warning');
+            }
+
+            newRow.innerHTML = `
+                <td>${item.name}</td>
+                <td>
+                    ${item.formattedDate} 
+                    ${isUrgent ? '<span class="badge-warning">Sắp hẹn!</span>' : ''}
+                </td>
+                <td style="white-space: pre-wrap;">${item.note ? item.note : '<i>Không có ghi chú</i>'}</td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="btn-edit" onclick="editAppointment('${item.id}')">Sửa</button>
+                        <button class="btn-delete" onclick="deleteAppointment('${item.id}')">Xóa</button>
+                    </div>
+                </td>
+            `;
+            tableBody.appendChild(newRow);
+        });
+    }
+
+    document.getElementById('btnSchedule').addEventListener('click', function() {
+        const nameInput = document.getElementById('customerName');
+        const dateInput = document.getElementById('appointmentDate');
+        const noteInput = document.getElementById('jobNote');
+
+        const name = nameInput.value.trim();
+        const date = dateInput.value;
+        const note = noteInput.value.trim();
+
+        if (name === "" || date === "") {
+            alert("Vui lòng nhập đầy đủ Tên khách hàng và Ngày hẹn!");
+            return;
+        }
+
+        const dateParts = date.split('-');
+        const formattedDate = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
+
+        if (editId !== null) {
+            appointments = appointments.map(item => {
+                if (item.id === editId) {
+                    return { ...item, name, rawDate: date, formattedDate, note };
+                }
+                return item;
+            });
+            editId = null;
+            document.getElementById('formTitle').innerText = "Thêm Khách Hàng Mới";
+            const btnSubmit = document.getElementById('btnSchedule');
+            btnSubmit.innerText = "Xếp Lịch";
+            btnSubmit.classList.remove('editing');
+        } else {
+            const newAppointment = {
+                id: Date.now().toString(),
+                name, rawDate: date, formattedDate, note
+            };
+            appointments.push(newAppointment);
+        }
+
+        localStorage.setItem('appointments', JSON.stringify(appointments));
+        renderTable();
+
+        nameInput.value = '';
+        setDefaultDate();
+        noteInput.value = '';
+    });
+
+    window.editAppointment = function(id) {
+        const appointment = appointments.find(item => item.id === id);
+        if (!appointment) return;
+
+        document.getElementById('customerName').value = appointment.name;
+        document.getElementById('appointmentDate').value = appointment.rawDate;
+        document.getElementById('jobNote').value = appointment.note;
+
+        editId = id;
+        document.getElementById('formTitle').innerText = "Chỉnh Sửa Lịch Hẹn";
+        const btnSubmit = document.getElementById('btnSchedule');
+        btnSubmit.innerText = "Cập Nhật";
+        btnSubmit.classList.add('editing');
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    window.deleteAppointment = function(id) {
+        if (confirm("Bạn có chắc chắn muốn xóa lịch hẹn này không?")) {
+            if (editId === id) {
+                editId = null;
+                document.getElementById('formTitle').innerText = "Thêm Khách Hàng Mới";
+                const btnSubmit = document.getElementById('btnSchedule');
+                btnSubmit.innerText = "Xếp Lịch";
+                btnSubmit.classList.remove('editing');
+                document.getElementById('customerName').value = '';
+                setDefaultDate();
+                document.getElementById('jobNote').value = '';
+            }
+            appointments = appointments.filter(item => item.id !== id);
+            localStorage.setItem('appointments', JSON.stringify(appointments));
+            renderTable();
+        }
+    }
+
+    function setDefaultDate() {
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        document.getElementById('appointmentDate').value = `${yyyy}-${mm}-${dd}`;
+    }
+
+    // ==========================================
+    // LOGIC XỬ LÝ EXCEL (XUẤT & NHẬP)
+    // ==========================================
+
+    // 1. Hàm xuất Excel
+    document.getElementById('btnExportExcel').addEventListener('click', function() {
+        if (appointments.length === 0) {
+            alert("Không có dữ liệu lịch hẹn để xuất!");
+            return;
+        }
+
+        // Định dạng dữ liệu hiển thị đẹp mắt trong Excel
+        const dataToExport = appointments.map((item, index) => ({
+            "STT": index + 1,
+            "Tên Khách Hàng": item.name,
+            "Ngày Hẹn": item.formattedDate,
+            "Ghi Chú Công Việc": item.note || ""
+        }));
+
+        const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Lịch Hẹn");
+
+        // Xuất file excel tên là: Lich_Hen_Khach_Hang.xlsx
+        XLSX.writeFile(workbook, "Lich_Hen_Khach_Hang.xlsx");
+    });
+
+    // 2. Hàm nhập dữ liệu từ file Excel
+    document.getElementById('btnImportExcel').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const data = new Uint8Array(e.target.result);
+                const workbook = XLSX.read(data, { type: 'array' });
+                
+                // Lấy sheet đầu tiên trong file excel
+                const firstSheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[firstSheetName];
+                
+                // Đọc dữ liệu dạng JSON mảng
+                const excelData = XLSX.utils.sheet_to_json(worksheet);
+
+                if (excelData.length === 0) {
+                    alert("File Excel trống hoặc không đúng cấu trúc!");
+                    return;
+                }
+
+                let importedAppointments = [];
+
+                excelData.forEach((row, index) => {
+                    // Ưu tiên đọc tên cột có dấu hoặc không dấu tùy theo cách đặt tên trong file
+                    const name = row["Tên Khách Hàng"] || row["Tên khách hàng"] || row["name"] || row["Name"];
+                    let rawDateStr = row["Ngày Hẹn"] || row["Ngày hẹn"] || row["date"] || row["Date"];
+                    const note = row["Ghi Chú Công Việc"] || row["Ghi chú"] || row["note"] || row["Note"] || "";
+
+                    if (name && rawDateStr) {
+                        let rawDate = "";
+                        let formattedDate = "";
+
+                        // Chuẩn hóa định dạng ngày nhập vào (Xử lý trường hợp chuỗi dd/mm/yyyy hoặc ngày dạng Excel)
+                        if (typeof rawDateStr === 'string' && rawDateStr.includes('/')) {
+                            const parts = rawDateStr.split('/');
+                            if (parts.length === 3) {
+                                rawDate = `${parts[2]}-${parts[1].padStart(2,'0')}-${parts[0].padStart(2,'0')}`;
+                                formattedDate = `${parts[0].padStart(2,'0')}/${parts[1].padStart(2,'0')}/${parts[2]}`;
+                            }
+                        } else {
+                            // Trường hợp định dạng ngày mặc định yyyy-mm-dd
+                            const d = new Date(rawDateStr);
+                            if (!isNaN(d.getTime())) {
+                                const yyyy = d.getFullYear();
+                                const mm = String(d.getMonth() + 1).padStart(2, '0');
+                                const dd = String(d.getDate()).padStart(2, '0');
+                                rawDate = `${yyyy}-${mm}-${dd}`;
+                                formattedDate = `${dd}/${mm}/${yyyy}`;
+                            }
+                        }
+
+                        if (rawDate && formattedDate) {
+                            importedAppointments.push({
+                                id: (Date.now() + index).toString(), // Tạo ID độc lập dựa trên timestamp
+                                name: name.toString().trim(),
+                                rawDate: rawDate,
+                                formattedDate: formattedDate,
+                                note: note.toString().trim()
+                            });
+                        }
+                    }
+                });
+
+                if (importedAppointments.length > 0) {
+                    if (confirm(`Tìm thấy ${importedAppointments.length} lịch hẹn hợp lệ. Bạn có muốn thêm vào danh sách hiện tại không?`)) {
+                        appointments = appointments.concat(importedAppointments);
+                        localStorage.setItem('appointments', JSON.stringify(appointments));
+                        renderTable();
+                        alert("Nhập dữ liệu thành công!");
+                    }
+                } else {
+                    alert("Không tìm thấy dữ liệu hợp lệ trong file (Yêu cầu có cột 'Tên Khách Hàng' và 'Ngày Hẹn')");
+                }
+
+            } catch (err) {
+                alert("Đã xảy ra lỗi khi đọc file Excel!");
+                console.error(err);
+            }
+            // Reset input file để có thể chọn lại chính file đó nếu cần
+            document.getElementById('btnImportExcel').value = '';
+        };
+        reader.readAsArrayBuffer(file);
+    });
+
+    document.getElementById('searchName').addEventListener('input', renderTable);
+    document.getElementById('filterDate').addEventListener('change', renderTable);
+
+    document.getElementById('btnClearFilter').addEventListener('click', function() {
+        document.getElementById('searchName').value = '';
+        document.getElementById('filterDate').value = '';
+        renderTable();
+    });
+
+    window.onload = function() {
+        setDefaultDate();
+        renderTable();
+    };
+</script>
+
+</body>
+</html>

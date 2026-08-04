@@ -1,0 +1,16 @@
+export const ROUTES = {
+  HOME: "/",
+  NEWS: "/tin-tuc",
+  CONTACT: "/lien-he",
+  HISTORY: "/ve-chung-toi",
+  VISIT: "/ghe-tham",
+  MASTERS: "/chu-ton-duc",
+  LOGIN: "/dang-nhap",
+  DASHBOARD_HOME: "/trang-chu",
+  QUAN_LY_COT_VA_HINH: "/trang-chu/quan-ly-cot-va-hinh",
+  QUAN_LY_CAU_AN_VA_CAU_SIEU: "/trang-chu/quan-ly-cau-an-va-cau-sieu",
+  LUU_TRU_CAU_AN_VA_CAU_SIEU: "/trang-chu/quan-ly-cau-an-va-cau-sieu/luu-tru",
+  QUAN_LY_LOAI_LE: "/trang-chu/quan-ly-loai-le",
+  QUAN_LY_TIN_TUC: "/trang-chu/quan-ly-tin-tuc",
+  TIM_COT_VA_HINH: "/tim-cot-va-hinh",
+} as const;
