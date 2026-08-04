@@ -1,6 +1,6 @@
 # Translation Rules
 
-This project supports **English** (`src/locales/en/translation.json`) and **Vietnamese** (`src/locales/vi/translation.json`). Both files must always be in sync.
+This project supports **English** (`src/locales/en/translation.json`), **Vietnamese** (`src/locales/vi/translation.json`), and **Simplified Chinese** (`src/locales/zh/translation.json`). All three files must always be in sync.
 
 ---
 

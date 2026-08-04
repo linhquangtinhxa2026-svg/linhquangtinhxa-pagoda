@@ -14,6 +14,11 @@
     "search": "Tìm Kiếm",
     "searchCotVaHinh": "Tìm Cốt và Hình"
   },
+  "languageSwitcher": {
+    "vi": "Tiếng Việt",
+    "en": "Tiếng Anh",
+    "zh": "Tiếng Trung"
+  },
   "hero": {
     "eyebrow": "Tịnh Xá Linh Quang",
     "titleLine1": "Chốn",

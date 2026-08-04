@@ -28,9 +28,12 @@ export function BranchPagodasSection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="flex flex-wrap justify-center gap-6">
           {BRANCH_PAGODAS.map((pagoda) => (
-            <div key={pagoda.slug} className="group">
+            <div
+              key={pagoda.slug}
+              className="group w-full sm:w-[calc(50%-0.75rem)] lg:w-[calc(33.333%-1rem)]"
+            >
               <div className="relative aspect-[3/4] w-full overflow-hidden">
                 <Image
                   src={pagoda.image}

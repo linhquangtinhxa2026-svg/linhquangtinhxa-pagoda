@@ -14,6 +14,11 @@
     "search": "Search",
     "searchCotVaHinh": "Find Remains & Photos"
   },
+  "languageSwitcher": {
+    "vi": "Vietnamese",
+    "en": "English",
+    "zh": "Chinese"
+  },
   "hero": {
     "eyebrow": "Linh Quang Meditation Hall",
     "titleLine1": "A Place Of",

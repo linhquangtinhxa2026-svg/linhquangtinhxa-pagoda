@@ -6,6 +6,7 @@ import LanguageDetector from "i18next-browser-languagedetector";
 
 import en from "@/locales/en/translation.json";
 import vi from "@/locales/vi/translation.json";
+import zh from "@/locales/zh/translation.json";
 
 if (!i18n.isInitialized) {
   i18n
@@ -15,6 +16,7 @@ if (!i18n.isInitialized) {
       resources: {
         en: { translation: en },
         vi: { translation: vi },
+        zh: { translation: zh },
       },
       lng: "vi",
       fallbackLng: "vi",
