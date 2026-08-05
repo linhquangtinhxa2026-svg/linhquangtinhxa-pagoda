@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
       { protocol: "http", hostname: "127.0.0.1", port: "8090" },
       {
         protocol: "https",
-        hostname: "api.toantrandev.com",
+        hostname: "api.linhquangtinhxa.org",
       },
     ],
   },
