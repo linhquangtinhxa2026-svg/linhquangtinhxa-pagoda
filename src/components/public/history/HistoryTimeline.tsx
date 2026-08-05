@@ -153,8 +153,8 @@ export function HistoryTimeline() {
           </p>
           <ul className="mt-8 space-y-4 text-left">
             {MASTER_KEYS.map(masterKey => (
-              <li key={masterKey} className="flex gap-3">
-                <span className="text-[#8b3a2e] font-semibold shrink-0">
+              <li key={masterKey} className="flex flex-col sm:flex-row sm:gap-3">
+                <span className="text-[#8b3a2e] font-semibold sm:shrink-0">
                   {MASTERS[masterKey].name}
                 </span>
                 <span className="text-[#2c1810]/60">
