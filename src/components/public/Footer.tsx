@@ -83,6 +83,7 @@ export function Footer() {
             </h4>
             <ul className="mt-4 space-y-3 text-sm text-[#e8d5c4]/50">
               <li>{PAGODA_INFO.address}</li>
+              <li>{PAGODA_INFO.phone}</li>
               <li>{PAGODA_INFO.email}</li>
             </ul>
           </div>
