@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { ROUTES } from "@/constants/routes";
 import { BrandMark } from "@/components/public/BrandMark";
@@ -89,8 +90,13 @@ const FLAG_COMPONENTS: Record<LanguageCode, typeof FlagUS> = {
   zh: FlagCN,
 };
 
+function isNavItemActive(pathname: string, href: string) {
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
 export function Navbar() {
   const { t, i18n } = useTranslation();
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -132,7 +138,11 @@ export function Navbar() {
                 <Link
                   key={item.key}
                   href={item.href}
-                  className="text-sm font-medium tracking-widest uppercase text-[#e8d5c4] hover:text-[#c4973a] transition-colors duration-200"
+                  className={`text-sm font-medium tracking-widest uppercase transition-colors duration-200 ${
+                    isNavItemActive(pathname, item.href)
+                      ? "text-[#c4973a]"
+                      : "text-[#e8d5c4] hover:text-[#c4973a]"
+                  }`}
                 >
                   {t(`nav.${item.key}`)}
                 </Link>
@@ -286,7 +296,11 @@ export function Navbar() {
                 key={item.key}
                 href={item.href}
                 onClick={() => setIsMobileOpen(false)}
-                className="py-4 border-b border-[#c4973a]/10 text-sm font-medium tracking-widest uppercase text-[#e8d5c4] hover:text-[#c4973a] transition-colors duration-200"
+                className={`py-4 border-b border-[#c4973a]/10 text-sm font-medium tracking-widest uppercase transition-colors duration-200 ${
+                  isNavItemActive(pathname, item.href)
+                    ? "text-[#c4973a]"
+                    : "text-[#e8d5c4] hover:text-[#c4973a]"
+                }`}
               >
                 {t(`nav.${item.key}`)}
               </Link>
