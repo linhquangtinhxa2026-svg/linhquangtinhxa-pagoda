@@ -82,9 +82,25 @@ export function Footer() {
               {t("footer.contact")}
             </h4>
             <ul className="mt-4 space-y-3 text-sm text-[#e8d5c4]/50">
-              <li>{PAGODA_INFO.address}</li>
-              <li>{PAGODA_INFO.phone}</li>
-              <li>{PAGODA_INFO.email}</li>
+              <li>
+                <a
+                  href={PAGODA_INFO.mapUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#c4973a] transition-colors duration-200"
+                >
+                  {PAGODA_INFO.address}
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`tel:${PAGODA_INFO.phone.replace(/[.\s]/g, "")}`}
+                  className="hover:text-[#c4973a] transition-colors duration-200"
+                >
+                  {PAGODA_INFO.phone}
+                </a>
+              </li>
+              <li className="break-words">{PAGODA_INFO.email}</li>
             </ul>
           </div>
 

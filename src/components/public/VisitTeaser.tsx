@@ -42,7 +42,14 @@ export function VisitTeaser() {
             <p className="text-xs tracking-widest uppercase font-semibold text-[#c4973a]">
               {t("visit.addressLabel")}
             </p>
-            <p className="mt-1 text-base text-[#2c1810]/70">{PAGODA_INFO.address}</p>
+            <a
+              href={PAGODA_INFO.mapUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-1 block text-base text-[#2c1810]/70 hover:text-[#c4973a] transition-colors duration-200"
+            >
+              {PAGODA_INFO.address}
+            </a>
           </div>
           <div>
             <p className="text-xs tracking-widest uppercase font-semibold text-[#c4973a]">

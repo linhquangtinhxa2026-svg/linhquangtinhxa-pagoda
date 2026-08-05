@@ -38,7 +38,14 @@ export function PracticalInfo() {
             <p className="mt-5 text-xs tracking-widest uppercase font-semibold text-[#c4973a]">
               {t("visit.addressLabel")}
             </p>
-            <p className="mt-2 text-base sm:text-lg text-[#2c1810]/70">{PAGODA_INFO.address}</p>
+            <a
+              href={PAGODA_INFO.mapUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-2 block text-base sm:text-lg text-[#2c1810]/70 hover:text-[#c4973a] transition-colors duration-200"
+            >
+              {PAGODA_INFO.address}
+            </a>
           </div>
 
           <div className="bg-[#2c1810]/5 border-2 border-transparent hover:border-[#c4973a] transition-colors duration-300 p-6 sm:p-8">

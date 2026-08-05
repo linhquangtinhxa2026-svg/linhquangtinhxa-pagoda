@@ -20,7 +20,9 @@ export function ContactSection() {
               style={{ fontFamily: "var(--font-serif)" }}
             >
               {t("contact.title")}{" "}
-              <span className="text-[#c4973a] italic">{t("contact.titleEmphasis")}</span>
+              <span className="text-[#c4973a] italic">
+                {t("contact.titleEmphasis")}
+              </span>
             </h2>
 
             <div className="mt-8 space-y-6">
@@ -28,19 +30,36 @@ export function ContactSection() {
                 <p className="text-xs tracking-widest uppercase font-semibold text-[#c4973a]">
                   {t("visit.addressLabel")}
                 </p>
-                <p className="mt-1 text-base sm:text-lg text-[#e8d5c4]/70">{PAGODA_INFO.address}</p>
+                <a
+                  href={PAGODA_INFO.mapUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-1 block text-base sm:text-lg text-[#e8d5c4]/70 hover:text-[#c4973a] transition-colors duration-200"
+                >
+                  {PAGODA_INFO.address}
+                </a>
               </div>
               <div>
                 <p className="text-xs tracking-widest uppercase font-semibold text-[#c4973a]">
                   {t("visit.hoursLabel")}
                 </p>
-                <p className="mt-1 text-base sm:text-lg text-[#e8d5c4]/70">{t("visit.hours")}</p>
+                <p className="mt-1 text-base sm:text-lg text-[#e8d5c4]/70">
+                  {t("visit.hours")}
+                </p>
               </div>
               <div>
                 <p className="text-xs tracking-widest uppercase font-semibold text-[#c4973a]">
                   {t("visit.contactLabel")}
                 </p>
-                <p className="mt-1 text-base sm:text-lg text-[#e8d5c4]/70">{PAGODA_INFO.email}</p>
+                <p className="mt-1 text-base sm:text-lg text-[#e8d5c4]/70">
+                  {PAGODA_INFO.email}
+                </p>
+                <a
+                  href={`tel:${PAGODA_INFO.phone.replace(/[.\s]/g, "")}`}
+                  className="mt-1 block text-base sm:text-lg text-[#e8d5c4]/70 hover:text-[#c4973a] transition-colors duration-200"
+                >
+                  {PAGODA_INFO.phone}
+                </a>
               </div>
             </div>
           </div>

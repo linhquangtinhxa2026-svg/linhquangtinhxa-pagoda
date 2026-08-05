@@ -20,7 +20,7 @@ export const MASTERS: Record<
   },
   abbot: {
     slug: "thich-minh-hue",
-    name: "Thượng Tọa Thượng Minh Hạ Huệ",
+    name: "Thượng Toạ Thích Minh Huệ",
     image: "/images/new-histories/image-09.png",
     years: "2021 – Hiện Nay",
   },
