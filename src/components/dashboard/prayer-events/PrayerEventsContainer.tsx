@@ -22,6 +22,7 @@ import { PrayerEventDayList } from "./PrayerEventDayList";
 import { PrayerEventModal, type PrayerEventModalState } from "./PrayerEventModal";
 import { ArchivePrayerEventDialog } from "./ArchivePrayerEventDialog";
 import { ArchiveSelectedPrayerEventsDialog } from "./ArchiveSelectedPrayerEventsDialog";
+import { PrayerEventsImportExport } from "./PrayerEventsImportExport";
 
 const DEFAULT_PER_PAGE = 10;
 
@@ -173,6 +174,10 @@ export function PrayerEventsContainer() {
       </div>
 
       <div className="space-y-6">
+        <div className="flex justify-end bg-white p-5 rounded-2xl border border-border shadow-sm">
+          <PrayerEventsImportExport />
+        </div>
+
         <PrayerEventsFilterBar
           searchInput={searchInput}
           onSearchInputChange={setSearchInput}

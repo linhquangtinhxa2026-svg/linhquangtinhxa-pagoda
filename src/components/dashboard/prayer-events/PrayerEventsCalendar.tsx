@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ChevronLeft, ChevronRight, Plus } from "lucide-react";
 
@@ -13,6 +13,9 @@ import {
   type CalendarGridDay,
 } from "@/lib/calendarGrid";
 import { convertSolar2Lunar, formatLunarDate } from "@/lib/lunarCalendar";
+import { useCeremonyTypesList } from "@/hooks/dashboard/useCeremonyTypes";
+import { getCeremonyTypeIconOption } from "@/lib/ceremonyTypeIcons";
+import type { CeremonyType } from "@/types/ceremonyType";
 import type { PrayerEvent } from "@/types/prayerEvent";
 
 interface PrayerEventsCalendarProps {
@@ -32,6 +35,15 @@ export function PrayerEventsCalendar({
   const today = new Date();
   const [viewYear, setViewYear] = useState(today.getFullYear());
   const [viewMonth, setViewMonth] = useState(today.getMonth() + 1);
+  const { data: ceremonyTypes = [] } = useCeremonyTypesList();
+
+  const importantTypesByValue = useMemo(() => {
+    return new Map(
+      ceremonyTypes
+        .filter(type => type.important)
+        .map(type => [type.value, type]),
+    );
+  }, [ceremonyTypes]);
 
   const days = getMonthGridDays(viewYear, viewMonth);
 
@@ -95,17 +107,25 @@ export function PrayerEventsCalendar({
       </div>
 
       <div className="grid grid-cols-7 gap-1">
-        {days.map(day => (
-          <PrayerEventsCalendarDay
-            key={day.dateKey}
-            day={day}
-            hasEvents={eventsByDate.has(day.dateKey)}
-            eventCount={eventsByDate.get(day.dateKey)?.length ?? 0}
-            isSelected={day.dateKey === selectedDateKey}
-            onSelect={() => onSelectDate(day.dateKey)}
-            onAdd={() => onAdd(day.dateKey)}
-          />
-        ))}
+        {days.map(day => {
+          const dayEvents = eventsByDate.get(day.dateKey);
+          const importantType = dayEvents
+            ?.map(event => importantTypesByValue.get(event.type))
+            .find((type): type is CeremonyType => !!type);
+
+          return (
+            <PrayerEventsCalendarDay
+              key={day.dateKey}
+              day={day}
+              hasEvents={eventsByDate.has(day.dateKey)}
+              eventCount={dayEvents?.length ?? 0}
+              importantType={importantType}
+              isSelected={day.dateKey === selectedDateKey}
+              onSelect={() => onSelectDate(day.dateKey)}
+              onAdd={() => onAdd(day.dateKey)}
+            />
+          );
+        })}
       </div>
     </div>
   );
@@ -115,6 +135,7 @@ interface PrayerEventsCalendarDayProps {
   day: CalendarGridDay;
   hasEvents: boolean;
   eventCount: number;
+  importantType?: CeremonyType;
   isSelected: boolean;
   onSelect: () => void;
   onAdd: () => void;
@@ -124,19 +145,23 @@ function PrayerEventsCalendarDay({
   day,
   hasEvents,
   eventCount,
+  importantType,
   isSelected,
   onSelect,
   onAdd,
 }: PrayerEventsCalendarDayProps) {
   const { t } = useTranslation();
   const lunar = convertSolar2Lunar(day.day, day.month, day.year);
+  const ImportantIcon = importantType
+    ? getCeremonyTypeIconOption(importantType.iconKey).icon
+    : null;
 
   return (
     <div
       role="button"
       tabIndex={0}
       onClick={onSelect}
-      onKeyDown={(e) => {
+      onKeyDown={e => {
         if (e.key === "Enter" || e.key === " ") onSelect();
       }}
       className={cn(
@@ -151,7 +176,7 @@ function PrayerEventsCalendarDay({
     >
       <button
         type="button"
-        onClick={(e) => {
+        onClick={e => {
           e.stopPropagation();
           onAdd();
         }}
@@ -175,13 +200,25 @@ function PrayerEventsCalendarDay({
         {formatLunarDate(lunar)}
       </span>
       {hasEvents && (
-        <span
-          className={cn(
-            "absolute bottom-1.5 size-3 rounded-full",
-            isSelected ? "bg-white" : "bg-brand-gold",
-          )}
+        <div
+          className="absolute bottom-1.5 flex items-center gap-1"
           aria-label={`${eventCount}`}
-        />
+        >
+          <span
+            className={cn(
+              "size-3 rounded-full",
+              isSelected ? "bg-white" : "bg-brand-gold",
+            )}
+          />
+          {ImportantIcon && (
+            <ImportantIcon
+              className={cn(
+                "size-4 fill-current",
+                isSelected ? "text-white" : "text-brand-gold",
+              )}
+            />
+          )}
+        </div>
       )}
     </div>
   );

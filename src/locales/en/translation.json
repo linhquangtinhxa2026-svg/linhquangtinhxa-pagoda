@@ -384,7 +384,12 @@
     "descriptionRequired": "Please enter a short description",
     "contentRequired": "Please enter the content",
     "categoryRequired": "Please select a category",
-    "coverImageRequired": "Please select a cover image"
+    "coverImageRequired": "Please select a cover image",
+    "iconRequired": "Please select an icon",
+    "hexColorRequired": "Please enter a color",
+    "hexColorInvalid": "Please enter a valid hex color (e.g. #8b3a2e)",
+    "orderRequired": "Please enter a sort order",
+    "orderInvalid": "Sort order must be 0 or greater"
   },
   "footer": {
     "description": "Tịnh xá Linh Quang - a place of serenity and Buddhist practice, founded in 1953 in District 4, Ho Chi Minh City.",
@@ -419,7 +424,10 @@
       "prayerEventsManage": "Manage",
       "prayerEventsArchive": "Archive",
       "ceremonyTypes": "Manage Ceremony Types",
-      "news": "News Management"
+      "news": "News Management",
+      "memorialRecordsManage": "Manage",
+      "memorialRecordsArchive": "Archive",
+      "newsCategories": "Manage Categories"
     }
   },
   "memorialRecords": {
@@ -488,7 +496,16 @@
     "createSuccess": "Record added successfully!",
     "updateSuccess": "Record updated successfully!",
     "deleteSuccess": "Record deleted successfully!",
-    "actionError": "Something went wrong, please try again."
+    "actionError": "Something went wrong, please try again.",
+    "archive": "Archive",
+    "archiving": "Archiving...",
+    "archiveTitle": "Archive Record",
+    "archiveConfirm": "Are you sure you want to archive the record for \"{{name}}\"? You can restore it later from the Archive.",
+    "archiveSuccess": "Record archived successfully!",
+    "archiveSelected": "Archive Selected ({{count}})",
+    "archiveSelectedTitle": "Archive Selected Records",
+    "archiveSelectedConfirm": "Are you sure you want to archive {{count}} selected record(s)? You can restore them later from the Archive.",
+    "archiveSelectedSuccess": "Selected records archived successfully!"
   },
   "prayerEvents": {
     "pageTitle": "Manage Prayer Ceremonies",
@@ -541,7 +558,17 @@
     "archiving": "Archiving...",
     "actionError": "Something went wrong, please try again.",
     "typeUnknown": "Unknown",
-    "noType": "No type"
+    "noType": "No type",
+    "exportExcel": "Export Excel",
+    "exportTxt": "Export TXT",
+    "exporting": "Exporting...",
+    "importExcel": "Import Excel",
+    "importTxt": "Import TXT",
+    "importConfirm": "Found data for {{count}} registrations. Do you want to add this data to the system?",
+    "importSuccess": "Data imported successfully!",
+    "importingTitle": "Importing Data",
+    "importingProgress": "Importing {{done}} / {{total}} records...",
+    "importingHint": "Please keep this tab open until the import finishes."
   },
   "prayerEventsArchive": {
     "pageTitle": "Archive",
@@ -616,7 +643,11 @@
     "deleteSuccess": "Ceremony type deleted successfully!",
     "deleting": "Deleting...",
     "actionError": "Something went wrong, please try again.",
-    "duplicateError": "A ceremony type with this name already exists. Please choose a different name."
+    "duplicateError": "A ceremony type with this name already exists. Please choose a different name.",
+    "iconField": "Icon",
+    "importantField": "Mark as important (shown on calendar)",
+    "colIcon": "Icon",
+    "colImportant": "Important"
   },
   "news": {
     "pageTitle": "News Management",
@@ -665,6 +696,64 @@
     "mediaUploadError": "Failed to upload media",
     "createSuccess": "News created successfully!",
     "updateSuccess": "Updated successfully!",
+    "actionError": "Something went wrong, please try again."
+  },
+  "memorialRecordsArchive": {
+    "pageTitle": "Archive",
+    "pageSubtitle": "Records moved to Archive from Manage Remains & Photos. Restore them or delete them permanently.",
+    "searchPlaceholder": "Search by name, phone, location...",
+    "colFullName": "Full Name",
+    "colAge": "Age At Death",
+    "colPhone": "Phone Number",
+    "colStorageLocation": "Ash Storage Location",
+    "colDisplayLocation": "Photo Display Location",
+    "colArchivedAt": "Archived On",
+    "colNotes": "Private Notes",
+    "empty": "No archived records found.",
+    "restore": "Restore",
+    "restoring": "Restoring...",
+    "restoreTitle": "Restore Record",
+    "restoreConfirm": "Restore the record for \"{{name}}\" back to the active list?",
+    "restoreSuccess": "Record restored!",
+    "deletePermanently": "Delete Permanently",
+    "deleting": "Deleting...",
+    "deletePermanentlyTitle": "Delete Record Permanently",
+    "deletePermanentlyConfirm": "Permanently delete the record for \"{{name}}\"? This cannot be undone.",
+    "deletePermanentlySuccess": "Record permanently deleted!",
+    "restoreSelected": "Restore Selected ({{count}})",
+    "restoreSelectedTitle": "Restore Selected Records",
+    "restoreSelectedConfirm": "Restore {{count}} selected record(s) back to the active list?",
+    "restoreSelectedSuccess": "Selected records restored!",
+    "deleteSelectedPermanently": "Delete Selected Permanently ({{count}})",
+    "deleteSelectedPermanentlyTitle": "Delete Selected Records Permanently",
+    "deleteSelectedPermanentlyConfirm": "Permanently delete {{count}} selected record(s)? This cannot be undone.",
+    "deleteSelectedPermanentlySuccess": "Selected records permanently deleted!"
+  },
+  "newsCategories": {
+    "pageTitle": "Manage Categories",
+    "pageSubtitle": "Manage the news categories (Danh Mục) used to tag and color-code articles.",
+    "addNew": "Add New",
+    "addTitle": "Add Category",
+    "editTitle": "Edit Category",
+    "deleteTitle": "Delete Category",
+    "deleteConfirm": "Are you sure you want to delete the category \"{{name}}\"? Articles using it will simply show no category badge. This cannot be undone.",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "deleting": "Deleting...",
+    "labelField": "Category Name",
+    "labelPlaceholder": "e.g. Sự Kiện, Hoạt Động",
+    "backgroundColorField": "Background Color",
+    "textColorField": "Text Color",
+    "orderField": "Sort Order",
+    "colColor": "Preview",
+    "colName": "Name",
+    "colOrder": "Order",
+    "colActions": "Actions",
+    "empty": "No categories yet.",
+    "createSuccess": "Category created successfully!",
+    "updateSuccess": "Category updated successfully!",
+    "deleteSuccess": "Category deleted successfully!",
     "actionError": "Something went wrong, please try again."
   }
 }

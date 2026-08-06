@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
@@ -11,6 +12,7 @@ import type { PrayerEvent } from "@/types/prayerEvent";
 import {
   archivePrayerEventService,
   bulkArchivePrayerEventsService,
+  bulkCreatePrayerEventsService,
   createPrayerEventService,
   getPrayerEventsListService,
   updatePrayerEventService,
@@ -110,4 +112,30 @@ export function useBulkArchivePrayerEvents({ onSuccess }: MutationOptions = {}) 
 
   const doBulkArchive = useDebouncedCallback(mutate, 1000);
   return { doBulkArchive, isBulkArchiving: isPending };
+}
+
+export function useBulkImportPrayerEvents({ onSuccess }: MutationOptions = {}) {
+  const queryClient = useQueryClient();
+  const { t } = useTranslation();
+  const showError = usePrayerEventErrorToast();
+  const [progress, setProgress] = useState<{ done: number; total: number } | null>(null);
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (records: Partial<PrayerEvent>[]) => {
+      setProgress({ done: 0, total: records.length });
+      return bulkCreatePrayerEventsService(records, (done, total) =>
+        setProgress({ done, total })
+      );
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: PRAYER_EVENTS_QUERY_KEY });
+      onSuccess?.();
+      toast.success(t("prayerEvents.importSuccess"));
+    },
+    onError: showError,
+    onSettled: () => setProgress(null),
+  });
+
+  const doImport = useDebouncedCallback(mutate, 1000);
+  return { doImport, isImporting: isPending, importProgress: progress };
 }

@@ -7,6 +7,8 @@ export interface MemorialRecord {
   display_location: string;
   private_info: string;
   search_index: string;
+  isArchived: boolean;
+  archivedAt: string | null;
   created: string;
   updated: string;
 }

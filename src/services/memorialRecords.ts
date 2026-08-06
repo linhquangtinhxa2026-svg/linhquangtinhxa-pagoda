@@ -27,13 +27,31 @@ const buildFilter = (search?: string) => {
   return pb.filter("search_index ~ {:q}", { q: normalizeVietnamese(search) });
 };
 
+const buildArchiveFilter = (isArchived: boolean, search?: string) => {
+  const searchFilter = buildFilter(search);
+  const archiveFilter = `isArchived = ${isArchived}`;
+  return searchFilter ? `${archiveFilter} && (${searchFilter})` : archiveFilter;
+};
+
 export const getMemorialRecordsListService = async (
   page: number,
   perPage: number,
   { search, sort = "-created" }: MemorialRecordsListParams = {}
 ) => {
   return pb.collection(COLLECTIONS.MEMORIAL_RECORDS).getList<MemorialRecord>(page, perPage, {
-    filter: buildFilter(search),
+    filter: buildArchiveFilter(false, search),
+    sort,
+    requestKey: null,
+  });
+};
+
+export const getArchivedMemorialRecordsListService = async (
+  page: number,
+  perPage: number,
+  { search, sort = "-archivedAt" }: MemorialRecordsListParams = {}
+) => {
+  return pb.collection(COLLECTIONS.MEMORIAL_RECORDS).getList<MemorialRecord>(page, perPage, {
+    filter: buildArchiveFilter(true, search),
     sort,
     requestKey: null,
   });
@@ -61,6 +79,38 @@ export const updateMemorialRecordService = async (
   return pb
     .collection(COLLECTIONS.MEMORIAL_RECORDS)
     .update<MemorialRecord>(id, { ...data, search_index: buildSearchIndex(data) });
+};
+
+export const archiveMemorialRecordService = async (id: string): Promise<void> => {
+  await pb.collection(COLLECTIONS.MEMORIAL_RECORDS).update(id, {
+    isArchived: true,
+    archivedAt: new Date().toISOString(),
+  });
+};
+
+export const bulkArchiveMemorialRecordsService = async (ids: string[]): Promise<void> => {
+  for (const id of ids) {
+    await pb.collection(COLLECTIONS.MEMORIAL_RECORDS).update(id, {
+      isArchived: true,
+      archivedAt: new Date().toISOString(),
+    });
+  }
+};
+
+export const restoreMemorialRecordService = async (id: string): Promise<void> => {
+  await pb.collection(COLLECTIONS.MEMORIAL_RECORDS).update(id, {
+    isArchived: false,
+    archivedAt: null,
+  });
+};
+
+export const bulkRestoreMemorialRecordsService = async (ids: string[]): Promise<void> => {
+  for (const id of ids) {
+    await pb.collection(COLLECTIONS.MEMORIAL_RECORDS).update(id, {
+      isArchived: false,
+      archivedAt: null,
+    });
+  }
 };
 
 export const deleteMemorialRecordService = async (id: string): Promise<void> => {

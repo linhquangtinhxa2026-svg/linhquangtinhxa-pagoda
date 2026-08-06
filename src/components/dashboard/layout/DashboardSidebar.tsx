@@ -9,6 +9,7 @@ import {
   LayoutDashboard,
   LogOut,
   Newspaper,
+  Palette,
   Tags,
 } from "lucide-react";
 
@@ -29,6 +30,10 @@ const NAV_ITEMS = [
     href: ROUTES.QUAN_LY_COT_VA_HINH,
     icon: Archive,
     exact: false,
+    children: [
+      { key: "memorialRecordsManage", href: ROUTES.QUAN_LY_COT_VA_HINH },
+      { key: "memorialRecordsArchive", href: ROUTES.LUU_TRU_COT_VA_HINH },
+    ],
   },
   {
     key: "prayerEvents",
@@ -50,6 +55,12 @@ const NAV_ITEMS = [
     key: "news",
     href: ROUTES.QUAN_LY_TIN_TUC,
     icon: Newspaper,
+    exact: false,
+  },
+  {
+    key: "newsCategories",
+    href: ROUTES.QUAN_LY_DANH_MUC,
+    icon: Palette,
     exact: false,
   },
 ] as const;

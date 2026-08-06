@@ -16,7 +16,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { TypographySmall } from "@/components/ui/typography";
 import { formatDate } from "@/lib/date";
-import { NEWS_CATEGORY_BADGE_STYLES } from "@/lib/newsCategoryColors";
 import { ROUTES } from "@/constants/routes";
 import type { News } from "@/types/news";
 
@@ -100,7 +99,8 @@ export function NewsTable({ items, isLoading, onDelete }: NewsTableProps) {
                 <TableCell className="px-4 py-4">
                   {category && (
                     <span
-                      className={`px-2.5 py-1 text-[11px] font-medium tracking-wide uppercase rounded-md ${NEWS_CATEGORY_BADGE_STYLES[category.colorKey]}`}
+                      className="px-2.5 py-1 text-[11px] font-medium tracking-wide uppercase rounded-md"
+                      style={{ backgroundColor: category.backgroundColor, color: category.textColor }}
                     >
                       {category.label}
                     </span>

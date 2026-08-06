@@ -15,24 +15,24 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { TypographySmall } from "@/components/ui/typography";
 import { cn } from "@/lib/utils";
-import { formatLunarDateFull, getLunarDateFromIso } from "@/lib/lunarCalendar";
-import type { PrayerEvent } from "@/types/prayerEvent";
-import { PrayerEventTypeBadge } from "@/components/dashboard/prayer-events/PrayerEventTypeBadge";
+import type { MemorialRecord } from "@/types/memorialRecord";
 
-interface PrayerEventsArchiveTableProps {
-  items: PrayerEvent[];
+interface MemorialRecordsArchiveTableProps {
+  items: MemorialRecord[];
   isLoading?: boolean;
-  onRestore: (event: PrayerEvent) => void;
-  onDeletePermanently: (event: PrayerEvent) => void;
+  onRestore: (memorialRecord: MemorialRecord) => void;
+  onDeletePermanently: (memorialRecord: MemorialRecord) => void;
   selectedIds: Set<string>;
   onToggleRow: (id: string) => void;
   onToggleAll: () => void;
 }
 
 const COLUMNS = [
-  "colType",
-  "colRegistrant",
-  "colLunarDate",
+  "colFullName",
+  "colAge",
+  "colPhone",
+  "colStorageLocation",
+  "colDisplayLocation",
   "colArchivedAt",
   "colNotes",
 ] as const;
@@ -48,7 +48,7 @@ function formatArchivedAt(iso: string | null): string {
   return `${d}/${m}/${y} ${hh}:${mm}`;
 }
 
-export function PrayerEventsArchiveTable({
+export function MemorialRecordsArchiveTable({
   items,
   isLoading,
   onRestore,
@@ -56,11 +56,11 @@ export function PrayerEventsArchiveTable({
   selectedIds,
   onToggleRow,
   onToggleAll,
-}: PrayerEventsArchiveTableProps) {
+}: MemorialRecordsArchiveTableProps) {
   const { t } = useTranslation();
 
-  const allSelected = items.length > 0 && items.every(item => selectedIds.has(item.id));
-  const someSelected = items.some(item => selectedIds.has(item.id));
+  const allSelected = items.length > 0 && items.every((item) => selectedIds.has(item.id));
+  const someSelected = items.some((item) => selectedIds.has(item.id));
 
   if (isLoading) {
     return (
@@ -77,7 +77,7 @@ export function PrayerEventsArchiveTable({
           <Inbox className="size-8" />
         </div>
         <TypographySmall className="text-muted-foreground font-bold text-base tracking-tight">
-          {t("prayerEventsArchive.empty")}
+          {t("memorialRecordsArchive.empty")}
         </TypographySmall>
       </div>
     );
@@ -88,57 +88,63 @@ export function PrayerEventsArchiveTable({
       <Table>
         <TableHeader>
           <TableRow className="bg-muted/40 hover:bg-muted/40 border-b border-border">
-            <TableHead className="w-10 px-6">
+            <TableHead className="w-12 px-6">
               <Checkbox
                 checked={allSelected}
                 indeterminate={!allSelected && someSelected}
                 onCheckedChange={onToggleAll}
-                aria-label={t("prayerEvents.selectAll")}
+                aria-label={t("memorialRecords.selectAll")}
               />
             </TableHead>
-            {COLUMNS.map(col => (
+            {COLUMNS.map((col) => (
               <TableHead
                 key={col}
                 className="text-muted-foreground text-[11px] font-bold uppercase tracking-widest py-4 px-4"
               >
-                {t(`prayerEventsArchive.${col}`)}
+                {t(`memorialRecordsArchive.${col}`)}
               </TableHead>
             ))}
             <TableHead className="text-muted-foreground text-[11px] font-bold uppercase tracking-widest text-right px-6">
-              {t("prayerEvents.colActions")}
+              {t("memorialRecords.colActions")}
             </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {items.map(event => (
+          {items.map((record) => (
             <TableRow
-              key={event.id}
+              key={record.id}
               className={cn(
                 "group border-b border-border/50 hover:bg-muted/20 transition-all duration-200",
-                selectedIds.has(event.id) && "bg-brand-gold/[0.04] hover:bg-brand-gold/[0.06]"
+                selectedIds.has(record.id) && "bg-brand-gold/[0.04] hover:bg-brand-gold/[0.06]"
               )}
             >
               <TableCell className="px-6 py-4">
                 <Checkbox
-                  checked={selectedIds.has(event.id)}
-                  onCheckedChange={() => onToggleRow(event.id)}
-                  aria-label={t("prayerEvents.selectRow", { name: event.registrantName })}
+                  checked={selectedIds.has(record.id)}
+                  onCheckedChange={() => onToggleRow(record.id)}
+                  aria-label={t("memorialRecords.selectRow", { name: record.full_name })}
                 />
               </TableCell>
-              <TableCell className="px-4 py-4">
-                <PrayerEventTypeBadge type={event.type} />
+              <TableCell className="text-sm font-bold text-foreground py-4 px-4">
+                {record.full_name}
               </TableCell>
-              <TableCell className="text-sm font-bold text-foreground px-4 py-4">
-                {event.registrantName}
+              <TableCell className="text-sm text-muted-foreground tabular-nums px-4 font-medium">
+                {record.age_at_death ?? "-"}
+              </TableCell>
+              <TableCell className="text-sm text-muted-foreground px-4">
+                {record.phone || "-"}
+              </TableCell>
+              <TableCell className="text-sm text-muted-foreground whitespace-normal px-4">
+                {record.storage_location || "-"}
+              </TableCell>
+              <TableCell className="text-sm text-muted-foreground whitespace-normal px-4">
+                {record.display_location || "-"}
               </TableCell>
               <TableCell className="text-sm text-muted-foreground tabular-nums px-4 whitespace-nowrap">
-                {formatLunarDateFull(getLunarDateFromIso(event.eventDate))}
-              </TableCell>
-              <TableCell className="text-sm text-muted-foreground tabular-nums px-4 whitespace-nowrap">
-                {formatArchivedAt(event.archivedAt)}
+                {formatArchivedAt(record.archivedAt)}
               </TableCell>
               <TableCell className="text-sm text-muted-foreground/80 whitespace-normal max-w-xs px-4">
-                {event.note || "-"}
+                {record.private_info || "-"}
               </TableCell>
               <TableCell className="text-right px-6 py-4">
                 <div className="flex items-center justify-end gap-1.5">
@@ -146,7 +152,7 @@ export function PrayerEventsArchiveTable({
                     variant="ghost"
                     size="icon"
                     className="size-8.5 rounded-lg text-muted-foreground hover:text-brand-gold hover:bg-brand-gold/15 active:scale-95 transition-all"
-                    onClick={() => onRestore(event)}
+                    onClick={() => onRestore(record)}
                   >
                     <RotateCcw className="size-4" />
                   </Button>
@@ -154,7 +160,7 @@ export function PrayerEventsArchiveTable({
                     variant="ghost"
                     size="icon"
                     className="size-8.5 rounded-lg text-muted-foreground hover:text-destructive hover:bg-destructive/15 active:scale-95 transition-all"
-                    onClick={() => onDeletePermanently(event)}
+                    onClick={() => onDeletePermanently(record)}
                   >
                     <ArchiveX className="size-4" />
                   </Button>

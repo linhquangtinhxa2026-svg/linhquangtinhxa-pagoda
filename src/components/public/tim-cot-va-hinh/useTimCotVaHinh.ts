@@ -9,5 +9,6 @@ export function useTimCotVaHinh(page: number, search: string) {
     queryKey: ["memorial-records-search", { page, search }],
     queryFn: () => getMemorialRecordsListService(page, PER_PAGE, { search, sort: "full_name" }),
     placeholderData: keepPreviousData,
+    enabled: !!search.trim(),
   });
 }

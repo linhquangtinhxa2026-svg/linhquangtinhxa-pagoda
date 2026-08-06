@@ -24,6 +24,18 @@ export const createPrayerEventService = async (
   return pb.collection(COLLECTIONS.PRAYER_EVENTS).create<PrayerEvent>(data);
 };
 
+export const bulkCreatePrayerEventsService = async (
+  records: Partial<PrayerEvent>[],
+  onProgress?: (done: number, total: number) => void
+): Promise<void> => {
+  let done = 0;
+  for (const record of records) {
+    await pb.collection(COLLECTIONS.PRAYER_EVENTS).create(record);
+    done += 1;
+    onProgress?.(done, records.length);
+  }
+};
+
 export const updatePrayerEventService = async (
   id: string,
   data: Partial<PrayerEvent>

@@ -384,7 +384,12 @@
     "descriptionRequired": "请输入简短描述",
     "contentRequired": "请输入内容",
     "categoryRequired": "请选择分类",
-    "coverImageRequired": "请选择封面图片"
+    "coverImageRequired": "请选择封面图片",
+    "iconRequired": "请选择图标",
+    "hexColorRequired": "请输入颜色",
+    "hexColorInvalid": "请输入有效的十六进制颜色（例如 #8b3a2e）",
+    "orderRequired": "请输入排序",
+    "orderInvalid": "排序必须为0或更大"
   },
   "footer": {
     "description": "灵光精舍——1953年创建于胡志明市第四郡的清净修行道场。",
@@ -419,7 +424,10 @@
       "prayerEventsManage": "管理",
       "prayerEventsArchive": "归档",
       "ceremonyTypes": "管理法会类型",
-      "news": "新闻管理"
+      "news": "新闻管理",
+      "memorialRecordsManage": "管理",
+      "memorialRecordsArchive": "归档",
+      "newsCategories": "管理分类"
     }
   },
   "memorialRecords": {
@@ -488,7 +496,16 @@
     "createSuccess": "记录添加成功！",
     "updateSuccess": "记录更新成功！",
     "deleteSuccess": "记录删除成功！",
-    "actionError": "发生错误，请重试。"
+    "actionError": "发生错误，请重试。",
+    "archive": "归档",
+    "archiving": "归档中……",
+    "archiveTitle": "归档记录",
+    "archiveConfirm": "您确定要归档\"{{name}}\"的记录吗？您可以稍后在归档中恢复。",
+    "archiveSuccess": "记录归档成功！",
+    "archiveSelected": "归档已选（{{count}}）",
+    "archiveSelectedTitle": "归档已选记录",
+    "archiveSelectedConfirm": "您确定要归档{{count}}条已选记录吗？您可以稍后在归档中恢复。",
+    "archiveSelectedSuccess": "已选记录归档成功！"
   },
   "prayerEvents": {
     "pageTitle": "管理祈福法会",
@@ -541,7 +558,17 @@
     "archiving": "归档中……",
     "actionError": "发生错误，请重试。",
     "typeUnknown": "未知",
-    "noType": "未分类"
+    "noType": "未分类",
+    "exportExcel": "导出Excel",
+    "exportTxt": "导出TXT",
+    "exporting": "导出中……",
+    "importExcel": "导入Excel",
+    "importTxt": "导入TXT",
+    "importConfirm": "找到{{count}}条登记数据。您要将此数据添加到系统中吗？",
+    "importSuccess": "数据导入成功！",
+    "importingTitle": "正在导入数据",
+    "importingProgress": "正在导入 {{done}} / {{total}} 条记录……",
+    "importingHint": "请在导入完成前保持此标签页打开。"
   },
   "prayerEventsArchive": {
     "pageTitle": "归档",
@@ -616,7 +643,11 @@
     "deleteSuccess": "法会类型删除成功！",
     "deleting": "删除中……",
     "actionError": "发生错误，请重试。",
-    "duplicateError": "已存在同名的法会类型，请选择其他名称。"
+    "duplicateError": "已存在同名的法会类型，请选择其他名称。",
+    "iconField": "图标",
+    "importantField": "标记为重要（显示在日历上）",
+    "colIcon": "图标",
+    "colImportant": "重要"
   },
   "news": {
     "pageTitle": "新闻管理",
@@ -665,6 +696,64 @@
     "mediaUploadError": "媒体上传失败",
     "createSuccess": "新闻创建成功！",
     "updateSuccess": "更新成功！",
+    "actionError": "发生错误，请重试。"
+  },
+  "memorialRecordsArchive": {
+    "pageTitle": "归档",
+    "pageSubtitle": "已从管理骨灰与遗照移入归档的记录。您可以恢复它们或永久删除。",
+    "searchPlaceholder": "按姓名、电话、位置搜索……",
+    "colFullName": "姓名",
+    "colAge": "享年",
+    "colPhone": "电话号码",
+    "colStorageLocation": "骨灰存放位置",
+    "colDisplayLocation": "遗照展示位置",
+    "colArchivedAt": "归档日期",
+    "colNotes": "私人备注",
+    "empty": "未找到已归档的记录。",
+    "restore": "恢复",
+    "restoring": "恢复中……",
+    "restoreTitle": "恢复记录",
+    "restoreConfirm": "将\"{{name}}\"的记录恢复至活动列表？",
+    "restoreSuccess": "记录已恢复！",
+    "deletePermanently": "永久删除",
+    "deleting": "删除中……",
+    "deletePermanentlyTitle": "永久删除记录",
+    "deletePermanentlyConfirm": "永久删除\"{{name}}\"的记录？此操作无法撤销。",
+    "deletePermanentlySuccess": "记录已永久删除！",
+    "restoreSelected": "恢复已选（{{count}}）",
+    "restoreSelectedTitle": "恢复已选记录",
+    "restoreSelectedConfirm": "将{{count}}条已选记录恢复至活动列表？",
+    "restoreSelectedSuccess": "已选记录已恢复！",
+    "deleteSelectedPermanently": "永久删除已选（{{count}}）",
+    "deleteSelectedPermanentlyTitle": "永久删除已选记录",
+    "deleteSelectedPermanentlyConfirm": "永久删除{{count}}条已选记录？此操作无法撤销。",
+    "deleteSelectedPermanentlySuccess": "已选记录已永久删除！"
+  },
+  "newsCategories": {
+    "pageTitle": "管理分类",
+    "pageSubtitle": "管理用于标记和着色文章的新闻分类（Danh Mục）。",
+    "addNew": "新增",
+    "addTitle": "新增分类",
+    "editTitle": "编辑分类",
+    "deleteTitle": "删除分类",
+    "deleteConfirm": "您确定要删除分类\"{{name}}\"吗？使用此分类的文章将不再显示分类标签。此操作无法撤销。",
+    "save": "保存",
+    "cancel": "取消",
+    "delete": "删除",
+    "deleting": "删除中……",
+    "labelField": "分类名称",
+    "labelPlaceholder": "例如：活动、通知",
+    "backgroundColorField": "背景颜色",
+    "textColorField": "文字颜色",
+    "orderField": "排序",
+    "colColor": "预览",
+    "colName": "名称",
+    "colOrder": "排序",
+    "colActions": "操作",
+    "empty": "暂无分类。",
+    "createSuccess": "分类创建成功！",
+    "updateSuccess": "分类更新成功！",
+    "deleteSuccess": "分类删除成功！",
     "actionError": "发生错误，请重试。"
   }
 }

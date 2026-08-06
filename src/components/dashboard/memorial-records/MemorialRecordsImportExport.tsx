@@ -11,7 +11,7 @@ import { getAllMemorialRecordsService } from "@/services/memorialRecords";
 import type { MemorialRecord } from "@/types/memorialRecord";
 import { useBulkImportMemorialRecords } from "./useMemorialRecords";
 import { WipeAllMemorialRecordsDialog } from "./WipeAllMemorialRecordsDialog";
-import { DeleteSelectedMemorialRecordsDialog } from "./DeleteSelectedMemorialRecordsDialog";
+import { ArchiveSelectedMemorialRecordsDialog } from "./ArchiveSelectedMemorialRecordsDialog";
 import { ImportProgressDialog } from "./ImportProgressDialog";
 
 const EXCEL_HEADERS = {
@@ -63,7 +63,7 @@ export function MemorialRecordsImportExport({
 }: MemorialRecordsImportExportProps) {
   const { t } = useTranslation();
   const [isWipeOpen, setIsWipeOpen] = useState(false);
-  const [isDeleteSelectedOpen, setIsDeleteSelectedOpen] = useState(false);
+  const [isArchiveSelectedOpen, setIsArchiveSelectedOpen] = useState(false);
   const [isExportingExcel, setIsExportingExcel] = useState(false);
   const [isExportingTxt, setIsExportingTxt] = useState(false);
   const txtInputRef = useRef<HTMLInputElement>(null);
@@ -243,11 +243,11 @@ export function MemorialRecordsImportExport({
           <Button
             type="button"
             className="h-10 px-4 rounded-xl bg-destructive hover:bg-destructive/90 text-white shadow-sm shadow-destructive/20 active:scale-[0.98] transition-all"
-            onClick={() => setIsDeleteSelectedOpen(true)}
+            onClick={() => setIsArchiveSelectedOpen(true)}
           >
             <Trash2 className="size-4" />
             <span className="hidden sm:inline">
-              {t("memorialRecords.deleteSelected", { count: selectedIds.length })}
+              {t("memorialRecords.archiveSelected", { count: selectedIds.length })}
             </span>
           </Button>
         )}
@@ -265,11 +265,11 @@ export function MemorialRecordsImportExport({
       </div>
 
       <WipeAllMemorialRecordsDialog open={isWipeOpen} onOpenChange={setIsWipeOpen} />
-      <DeleteSelectedMemorialRecordsDialog
+      <ArchiveSelectedMemorialRecordsDialog
         selectedIds={selectedIds}
-        open={isDeleteSelectedOpen}
-        onOpenChange={setIsDeleteSelectedOpen}
-        onDeleted={onClearSelection}
+        open={isArchiveSelectedOpen}
+        onOpenChange={setIsArchiveSelectedOpen}
+        onArchived={onClearSelection}
       />
       <ImportProgressDialog progress={importProgress} />
     </div>

@@ -2,6 +2,7 @@ import * as yup from "yup";
 import type { InferType } from "yup";
 
 import { CEREMONY_TYPE_COLOR_OPTIONS } from "@/lib/ceremonyTypeColors";
+import { CEREMONY_TYPE_ICON_OPTIONS } from "@/lib/ceremonyTypeIcons";
 
 export const ceremonyTypeSchema = yup.object({
   label: yup.string().required("validation.labelRequired"),
@@ -12,6 +13,14 @@ export const ceremonyTypeSchema = yup.object({
       "validation.colorRequired"
     )
     .required("validation.colorRequired"),
+  iconKey: yup
+    .string()
+    .oneOf(
+      CEREMONY_TYPE_ICON_OPTIONS.map((option) => option.key),
+      "validation.iconRequired"
+    )
+    .required("validation.iconRequired"),
+  important: yup.boolean().default(false).required(),
 });
 
 export type CeremonyTypeFormData = InferType<typeof ceremonyTypeSchema>;

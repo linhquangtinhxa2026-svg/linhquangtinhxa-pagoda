@@ -9,43 +9,43 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { useBulkDeleteMemorialRecords } from "./useMemorialRecords";
+import { useBulkArchiveMemorialRecords } from "./useMemorialRecords";
 
-interface DeleteSelectedMemorialRecordsDialogProps {
+interface ArchiveSelectedMemorialRecordsDialogProps {
   selectedIds: string[];
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onDeleted: () => void;
+  onArchived: () => void;
 }
 
-export function DeleteSelectedMemorialRecordsDialog({
+export function ArchiveSelectedMemorialRecordsDialog({
   selectedIds,
   open,
   onOpenChange,
-  onDeleted,
-}: DeleteSelectedMemorialRecordsDialogProps) {
+  onArchived,
+}: ArchiveSelectedMemorialRecordsDialogProps) {
   const { t } = useTranslation();
-  const { doBulkDelete, isBulkDeleting } = useBulkDeleteMemorialRecords({
+  const { doBulkArchive, isBulkArchiving } = useBulkArchiveMemorialRecords({
     onSuccess: () => {
       onOpenChange(false);
-      onDeleted();
+      onArchived();
     },
   });
 
   return (
-    <Dialog open={open} onOpenChange={(next) => !isBulkDeleting && onOpenChange(next)}>
-      <DialogContent className="sm:max-w-sm" showCloseButton={!isBulkDeleting}>
+    <Dialog open={open} onOpenChange={(next) => !isBulkArchiving && onOpenChange(next)}>
+      <DialogContent className="sm:max-w-sm" showCloseButton={!isBulkArchiving}>
         <DialogHeader>
-          <DialogTitle>{t("memorialRecords.deleteSelectedTitle")}</DialogTitle>
+          <DialogTitle>{t("memorialRecords.archiveSelectedTitle")}</DialogTitle>
         </DialogHeader>
         <p className="text-sm text-gray-500">
-          {t("memorialRecords.deleteSelectedConfirm", { count: selectedIds.length })}
+          {t("memorialRecords.archiveSelectedConfirm", { count: selectedIds.length })}
         </p>
         <DialogFooter>
           <Button
             type="button"
             variant="outline"
-            disabled={isBulkDeleting}
+            disabled={isBulkArchiving}
             className="border border-gray-200 bg-white text-gray-600 hover:bg-gray-50"
             onClick={() => onOpenChange(false)}
           >
@@ -53,12 +53,12 @@ export function DeleteSelectedMemorialRecordsDialog({
           </Button>
           <Button
             type="button"
-            disabled={isBulkDeleting}
+            disabled={isBulkArchiving}
             className="bg-red-600 hover:bg-red-700 text-white"
-            onClick={() => doBulkDelete(selectedIds)}
+            onClick={() => doBulkArchive(selectedIds)}
           >
-            {isBulkDeleting && <Loader2 className="size-4 animate-spin" />}
-            {isBulkDeleting ? t("memorialRecords.deleting") : t("memorialRecords.delete")}
+            {isBulkArchiving && <Loader2 className="size-4 animate-spin" />}
+            {isBulkArchiving ? t("memorialRecords.archiving") : t("memorialRecords.archive")}
           </Button>
         </DialogFooter>
       </DialogContent>

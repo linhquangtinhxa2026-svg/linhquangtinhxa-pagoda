@@ -385,7 +385,12 @@
     "descriptionRequired": "Vui lòng nhập mô tả ngắn",
     "contentRequired": "Vui lòng nhập nội dung",
     "categoryRequired": "Vui lòng chọn danh mục",
-    "coverImageRequired": "Vui lòng chọn ảnh bìa"
+    "coverImageRequired": "Vui lòng chọn ảnh bìa",
+    "iconRequired": "Vui lòng chọn biểu tượng",
+    "hexColorRequired": "Vui lòng nhập màu",
+    "hexColorInvalid": "Vui lòng nhập mã màu hex hợp lệ (VD: #8b3a2e)",
+    "orderRequired": "Vui lòng nhập thứ tự sắp xếp",
+    "orderInvalid": "Thứ tự sắp xếp phải từ 0 trở lên"
   },
   "footer": {
     "description": "Tịnh xá Linh Quang - chốn thanh tịnh tu học Phật pháp, khai sơn từ năm 1953 tại Quận 4, TP. Hồ Chí Minh.",
@@ -420,7 +425,10 @@
       "prayerEventsManage": "Quản Lý",
       "prayerEventsArchive": "Lưu Trữ",
       "ceremonyTypes": "Quản Lý Loại Lễ",
-      "news": "Quản Lý Tin Tức"
+      "news": "Quản Lý Tin Tức",
+      "memorialRecordsManage": "Quản Lý",
+      "memorialRecordsArchive": "Lưu Trữ",
+      "newsCategories": "Quản Lý Danh Mục"
     }
   },
   "memorialRecords": {
@@ -488,7 +496,16 @@
     "createSuccess": "Thêm thông tin thành công!",
     "updateSuccess": "Cập nhật thành công!",
     "deleteSuccess": "Đã xóa thành công!",
-    "actionError": "Có lỗi xảy ra, vui lòng thử lại."
+    "actionError": "Có lỗi xảy ra, vui lòng thử lại.",
+    "archive": "Lưu Trữ",
+    "archiving": "Đang lưu trữ...",
+    "archiveTitle": "Lưu Trữ Thông Tin",
+    "archiveConfirm": "Bạn có chắc chắn muốn lưu trữ thông tin của \"{{name}}\"? Bạn có thể khôi phục sau trong mục Lưu Trữ.",
+    "archiveSuccess": "Đã lưu trữ thành công!",
+    "archiveSelected": "Lưu Trữ Mục Đã Chọn ({{count}})",
+    "archiveSelectedTitle": "Lưu Trữ Các Mục Đã Chọn",
+    "archiveSelectedConfirm": "Bạn có chắc chắn muốn lưu trữ {{count}} mục đã chọn? Bạn có thể khôi phục sau trong mục Lưu Trữ.",
+    "archiveSelectedSuccess": "Đã lưu trữ các mục đã chọn thành công!"
   },
   "prayerEvents": {
     "pageTitle": "Quản Lý Cầu An và Cầu Siêu",
@@ -540,7 +557,17 @@
     "archiving": "Đang chuyển vào Lưu Trữ...",
     "actionError": "Có lỗi xảy ra, vui lòng thử lại.",
     "typeUnknown": "Không xác định",
-    "noType": "Chưa phân loại"
+    "noType": "Chưa phân loại",
+    "exportExcel": "Xuất Excel",
+    "exportTxt": "Xuất TXT",
+    "exporting": "Đang xuất...",
+    "importExcel": "Nhập Excel",
+    "importTxt": "Nhập TXT",
+    "importConfirm": "Tìm thấy dữ liệu của {{count}} lượt đăng ký. Bạn có muốn thêm dữ liệu này vào hệ thống?",
+    "importSuccess": "Nhập dữ liệu thành công!",
+    "importingTitle": "Đang Nhập Dữ Liệu",
+    "importingProgress": "Đang nhập {{done}} / {{total}} bản ghi...",
+    "importingHint": "Vui lòng giữ tab này mở cho đến khi nhập xong."
   },
   "prayerEventsArchive": {
     "pageTitle": "Lưu Trữ",
@@ -614,7 +641,11 @@
     "deleteSuccess": "Xóa loại lễ thành công!",
     "deleting": "Đang xóa...",
     "actionError": "Có lỗi xảy ra, vui lòng thử lại.",
-    "duplicateError": "Đã tồn tại loại lễ với tên này. Vui lòng chọn tên khác."
+    "duplicateError": "Đã tồn tại loại lễ với tên này. Vui lòng chọn tên khác.",
+    "iconField": "Biểu tượng",
+    "importantField": "Đánh dấu quan trọng (hiển thị trên lịch)",
+    "colIcon": "Biểu tượng",
+    "colImportant": "Quan trọng"
   },
   "news": {
     "pageTitle": "Quản Lý Tin Tức",
@@ -663,6 +694,64 @@
     "mediaUploadError": "Tải lên thất bại",
     "createSuccess": "Thêm tin tức thành công!",
     "updateSuccess": "Cập nhật thành công!",
+    "actionError": "Có lỗi xảy ra, vui lòng thử lại."
+  },
+  "memorialRecordsArchive": {
+    "pageTitle": "Lưu Trữ",
+    "pageSubtitle": "Các thông tin Cốt và Hình đã được chuyển vào Lưu Trữ. Bạn có thể khôi phục hoặc xóa vĩnh viễn.",
+    "searchPlaceholder": "Tìm theo tên, số điện thoại, vị trí...",
+    "colFullName": "Họ Và Tên",
+    "colAge": "Tuổi Mất",
+    "colPhone": "Số Điện Thoại",
+    "colStorageLocation": "Vị Trí Lưu Cốt",
+    "colDisplayLocation": "Vị Trí Trưng Bày Hình",
+    "colArchivedAt": "Ngày Lưu Trữ",
+    "colNotes": "Thông Tin Riêng",
+    "empty": "Không có thông tin nào trong Lưu Trữ.",
+    "restore": "Khôi Phục",
+    "restoring": "Đang khôi phục...",
+    "restoreTitle": "Khôi Phục Thông Tin",
+    "restoreConfirm": "Khôi phục thông tin của \"{{name}}\" về danh sách hoạt động?",
+    "restoreSuccess": "Đã khôi phục thành công!",
+    "deletePermanently": "Xóa Vĩnh Viễn",
+    "deleting": "Đang xóa...",
+    "deletePermanentlyTitle": "Xóa Vĩnh Viễn Thông Tin",
+    "deletePermanentlyConfirm": "Xóa vĩnh viễn thông tin của \"{{name}}\"? Hành động này không thể hoàn tác.",
+    "deletePermanentlySuccess": "Đã xóa vĩnh viễn!",
+    "restoreSelected": "Khôi Phục Mục Đã Chọn ({{count}})",
+    "restoreSelectedTitle": "Khôi Phục Các Mục Đã Chọn",
+    "restoreSelectedConfirm": "Khôi phục {{count}} mục đã chọn về danh sách hoạt động?",
+    "restoreSelectedSuccess": "Đã khôi phục các mục đã chọn!",
+    "deleteSelectedPermanently": "Xóa Vĩnh Viễn Mục Đã Chọn ({{count}})",
+    "deleteSelectedPermanentlyTitle": "Xóa Vĩnh Viễn Các Mục Đã Chọn",
+    "deleteSelectedPermanentlyConfirm": "Xóa vĩnh viễn {{count}} mục đã chọn? Hành động này không thể hoàn tác.",
+    "deleteSelectedPermanentlySuccess": "Đã xóa vĩnh viễn các mục đã chọn!"
+  },
+  "newsCategories": {
+    "pageTitle": "Quản Lý Danh Mục",
+    "pageSubtitle": "Quản lý danh sách các danh mục tin tức (Danh Mục) dùng để gắn thẻ và tô màu bài viết.",
+    "addNew": "Thêm Mới",
+    "addTitle": "Thêm Danh Mục",
+    "editTitle": "Sửa Danh Mục",
+    "deleteTitle": "Xóa Danh Mục",
+    "deleteConfirm": "Bạn có chắc chắn muốn xóa danh mục \"{{name}}\"? Các bài viết đang dùng danh mục này sẽ không hiển thị nhãn danh mục. Hành động này không thể hoàn tác.",
+    "save": "Lưu",
+    "cancel": "Hủy",
+    "delete": "Xóa",
+    "deleting": "Đang xóa...",
+    "labelField": "Tên Danh Mục",
+    "labelPlaceholder": "VD: Sự Kiện, Hoạt Động",
+    "backgroundColorField": "Màu Nền",
+    "textColorField": "Màu Chữ",
+    "orderField": "Thứ Tự Sắp Xếp",
+    "colColor": "Xem Trước",
+    "colName": "Tên",
+    "colOrder": "Thứ Tự",
+    "colActions": "Thao Tác",
+    "empty": "Chưa có danh mục nào.",
+    "createSuccess": "Tạo danh mục thành công!",
+    "updateSuccess": "Cập nhật danh mục thành công!",
+    "deleteSuccess": "Xóa danh mục thành công!",
     "actionError": "Có lỗi xảy ra, vui lòng thử lại."
   }
 }

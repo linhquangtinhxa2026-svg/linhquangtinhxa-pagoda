@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { News } from "@/types/news";
-import { NEWS_CATEGORY_BADGE_STYLES } from "@/lib/newsCategoryColors";
 import { formatDate } from "@/lib/date";
 import { ROUTES } from "@/constants/routes";
 
@@ -28,7 +27,8 @@ export function PostCard({ post, variant = "light" }: PostCardProps) {
           <div className="absolute inset-0 bg-[#1c0a0a]/0 group-hover:bg-[#1c0a0a]/30 transition-colors duration-300" />
           {category && (
             <span
-              className={`absolute top-3 left-3 px-3 py-1 text-xs font-medium tracking-widest uppercase ${NEWS_CATEGORY_BADGE_STYLES[category.colorKey]}`}
+              className="absolute top-3 left-3 px-3 py-1 text-xs font-medium tracking-widest uppercase"
+              style={{ backgroundColor: category.backgroundColor, color: category.textColor }}
             >
               {category.label}
             </span>

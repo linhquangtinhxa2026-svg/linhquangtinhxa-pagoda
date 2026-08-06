@@ -142,9 +142,7 @@ export function PrayerEventsTable({
                 {formatLunarDateFull(getLunarDateFromIso(event.eventDate))}
               </TableCell>
               <TableCell className="text-sm text-muted-foreground/80 whitespace-normal max-w-xs px-4">
-                <span className="line-clamp-1 group-hover:line-clamp-none transition-all duration-300">
-                  {event.note || "-"}
-                </span>
+                {event.note || "-"}
               </TableCell>
               <TableCell className="text-right px-6 py-4">
                 <div className="flex items-center justify-end gap-1.5">

@@ -2,37 +2,38 @@
 
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Plus, Search, X } from "lucide-react";
+import { Search, X } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import type { MemorialRecord } from "@/types/memorialRecord";
-import { MemorialRecordsStatsCards } from "./MemorialRecordsStatsCards";
-import { MemorialRecordsImportExport } from "./MemorialRecordsImportExport";
-import { MemorialRecordsTable, type SortField } from "./MemorialRecordsTable";
-import { MemorialRecordsPagination } from "./MemorialRecordsPagination";
-import { AddMemorialRecordModal } from "./AddMemorialRecordModal";
-import { EditMemorialRecordModal } from "./EditMemorialRecordModal";
-import { ArchiveMemorialRecordDialog } from "./ArchiveMemorialRecordDialog";
-import { useMemorialRecordsList } from "./useMemorialRecords";
 import { TypographyH2, TypographyMuted } from "@/components/ui/typography";
+import type { MemorialRecord } from "@/types/memorialRecord";
+import { MemorialRecordsPagination } from "@/components/dashboard/memorial-records/MemorialRecordsPagination";
+import { useArchivedMemorialRecordsList } from "./useMemorialRecordsArchive";
+import { MemorialRecordsArchiveTable } from "./MemorialRecordsArchiveTable";
+import { MemorialRecordsArchiveBulkActionsBar } from "./MemorialRecordsArchiveBulkActionsBar";
+import { RestoreMemorialRecordDialog } from "./RestoreMemorialRecordDialog";
+import { PermanentlyDeleteMemorialRecordDialog } from "./PermanentlyDeleteMemorialRecordDialog";
+import { RestoreSelectedMemorialRecordsDialog } from "./RestoreSelectedMemorialRecordsDialog";
+import { DeleteSelectedMemorialRecordsPermanentlyDialog } from "./DeleteSelectedMemorialRecordsPermanentlyDialog";
 
 const DEFAULT_PER_PAGE = 10;
 
-export function MemorialRecordsContainer() {
+export function MemorialRecordsArchiveContainer() {
   const { t } = useTranslation();
   const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(DEFAULT_PER_PAGE);
-  const [isAddOpen, setIsAddOpen] = useState(false);
-  const [editingMemorialRecord, setEditingMemorialRecord] = useState<MemorialRecord | null>(null);
-  const [archivingMemorialRecord, setArchivingMemorialRecord] = useState<MemorialRecord | null>(
+
+  const [restoringMemorialRecord, setRestoringMemorialRecord] = useState<MemorialRecord | null>(
     null
   );
-  const [sortField, setSortField] = useState<SortField | null>(null);
-  const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
+  const [deletingMemorialRecord, setDeletingMemorialRecord] = useState<MemorialRecord | null>(
+    null
+  );
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [isRestoreSelectedOpen, setIsRestoreSelectedOpen] = useState(false);
+  const [isDeleteSelectedOpen, setIsDeleteSelectedOpen] = useState(false);
 
   useEffect(() => {
     const id = setTimeout(() => {
@@ -43,18 +44,12 @@ export function MemorialRecordsContainer() {
     return () => clearTimeout(id);
   }, [searchInput]);
 
-  const handleSort = (field: SortField) => {
-    if (sortField === field) {
-      setSortDir((dir) => (dir === "asc" ? "desc" : "asc"));
-    } else {
-      setSortField(field);
-      setSortDir("asc");
-    }
-  };
-
-  const sort = sortField ? `${sortDir === "desc" ? "-" : ""}${sortField}` : "-created";
-
-  const { data, isLoading, isFetching } = useMemorialRecordsList(page, search, sort, perPage);
+  const { data, isLoading, isFetching } = useArchivedMemorialRecordsList(
+    page,
+    search,
+    "-archivedAt",
+    perPage
+  );
 
   const handlePageChange = (nextPage: number) => {
     setPage(nextPage);
@@ -98,32 +93,27 @@ export function MemorialRecordsContainer() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div className="space-y-1.5">
           <TypographyH2 className="text-3xl font-extrabold tracking-tight border-none pb-0 text-foreground">
-            {t("memorialRecords.pageTitle")}
+            {t("memorialRecordsArchive.pageTitle")}
           </TypographyH2>
           <TypographyMuted className="text-base font-medium">
-            {t("memorialRecords.pageSubtitle")}
+            {t("memorialRecordsArchive.pageSubtitle")}
           </TypographyMuted>
         </div>
-        <Button
-          type="button"
-          className="bg-brand-gold hover:bg-brand-gold-light text-white font-bold shadow-md shadow-brand-gold/20 h-12 px-6 rounded-xl active:scale-[0.98] transition-all flex items-center gap-2"
-          onClick={() => setIsAddOpen(true)}
-        >
-          <Plus className="size-5" />
-          {t("memorialRecords.addNew")}
-        </Button>
+        <MemorialRecordsArchiveBulkActionsBar
+          selectedCount={selectedIds.size}
+          onRestoreSelected={() => setIsRestoreSelectedOpen(true)}
+          onDeleteSelectedPermanently={() => setIsDeleteSelectedOpen(true)}
+        />
       </div>
 
-      <MemorialRecordsStatsCards />
-
       <div className="space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center gap-4 justify-between bg-white p-5 rounded-2xl border border-border shadow-sm">
+        <div className="bg-white p-5 rounded-2xl border border-border shadow-sm">
           <div className="relative w-full sm:max-w-md group">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-muted-foreground/50 transition-colors group-focus-within:text-brand-gold" />
             <Input
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
-              placeholder={t("memorialRecords.searchPlaceholder")}
+              placeholder={t("memorialRecordsArchive.searchPlaceholder")}
               className="pl-12 pr-11 h-12 rounded-xl border-border bg-muted/5 focus-visible:ring-brand-gold/20 focus-visible:border-brand-gold transition-all"
             />
             {searchInput && (
@@ -135,20 +125,13 @@ export function MemorialRecordsContainer() {
               </button>
             )}
           </div>
-          <MemorialRecordsImportExport
-            selectedIds={Array.from(selectedIds)}
-            onClearSelection={() => setSelectedIds(new Set())}
-          />
         </div>
 
-        <MemorialRecordsTable
+        <MemorialRecordsArchiveTable
           items={data?.items ?? []}
           isLoading={isLoading || isFetching}
-          onEdit={setEditingMemorialRecord}
-          onDelete={setArchivingMemorialRecord}
-          sortField={sortField}
-          sortDir={sortDir}
-          onSort={handleSort}
+          onRestore={setRestoringMemorialRecord}
+          onDeletePermanently={setDeletingMemorialRecord}
           selectedIds={selectedIds}
           onToggleRow={handleToggleRow}
           onToggleAll={handleToggleAll}
@@ -168,14 +151,23 @@ export function MemorialRecordsContainer() {
         )}
       </div>
 
-      <AddMemorialRecordModal open={isAddOpen} onOpenChange={setIsAddOpen} />
-      <EditMemorialRecordModal
-        memorialRecord={editingMemorialRecord}
-        onOpenChange={(open) => !open && setEditingMemorialRecord(null)}
+      <RestoreMemorialRecordDialog
+        memorialRecord={restoringMemorialRecord}
+        onOpenChange={(open) => !open && setRestoringMemorialRecord(null)}
       />
-      <ArchiveMemorialRecordDialog
-        memorialRecord={archivingMemorialRecord}
-        onOpenChange={(open) => !open && setArchivingMemorialRecord(null)}
+      <PermanentlyDeleteMemorialRecordDialog
+        memorialRecord={deletingMemorialRecord}
+        onOpenChange={(open) => !open && setDeletingMemorialRecord(null)}
+      />
+      <RestoreSelectedMemorialRecordsDialog
+        selectedIds={Array.from(selectedIds)}
+        open={isRestoreSelectedOpen}
+        onOpenChange={setIsRestoreSelectedOpen}
+      />
+      <DeleteSelectedMemorialRecordsPermanentlyDialog
+        selectedIds={Array.from(selectedIds)}
+        open={isDeleteSelectedOpen}
+        onOpenChange={setIsDeleteSelectedOpen}
       />
     </div>
   );

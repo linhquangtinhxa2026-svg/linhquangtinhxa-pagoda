@@ -11,11 +11,18 @@ export const getNewsListService = async (): Promise<News[]> => {
 };
 
 export const getPublishedNewsListService = async (): Promise<News[]> => {
-  return pb.collection(COLLECTIONS.NEWS).getFullList<News>({
+  const news = await pb.collection(COLLECTIONS.NEWS).getFullList<News>({
     filter: "isPublished = true",
     sort: "-publishedAt",
     expand: "category",
     requestKey: null,
+  });
+
+  return news.sort((a, b) => {
+    const orderA = a.expand?.category?.order ?? Number.MAX_SAFE_INTEGER;
+    const orderB = b.expand?.category?.order ?? Number.MAX_SAFE_INTEGER;
+    if (orderA !== orderB) return orderA - orderB;
+    return (b.publishedAt || b.created).localeCompare(a.publishedAt || a.created);
   });
 };
 

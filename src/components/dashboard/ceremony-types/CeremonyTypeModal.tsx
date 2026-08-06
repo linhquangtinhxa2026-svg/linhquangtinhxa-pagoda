@@ -33,6 +33,8 @@ interface CeremonyTypeModalProps {
 const baseDefaultValues: CeremonyTypeFormData = {
   label: "",
   colorKey: "emerald",
+  iconKey: "flame",
+  important: false,
 };
 
 function makeUniqueValue(label: string, existing: CeremonyType[], excludeId?: string): string {
@@ -61,7 +63,12 @@ export function CeremonyTypeModal({ state, onClose }: CeremonyTypeModalProps) {
   useEffect(() => {
     if (!state) return;
     if (state.mode === "edit") {
-      reset({ label: state.type.label, colorKey: state.type.colorKey });
+      reset({
+        label: state.type.label,
+        colorKey: state.type.colorKey,
+        iconKey: state.type.iconKey,
+        important: state.type.important,
+      });
     } else {
       reset(baseDefaultValues);
     }
@@ -72,10 +79,24 @@ export function CeremonyTypeModal({ state, onClose }: CeremonyTypeModalProps) {
     if (state.mode === "edit") {
       // value is immutable after creation — renaming the label must not
       // orphan prayer_events already referencing the original slug
-      doUpdate({ id: state.type.id, data: { label: data.label, colorKey: data.colorKey } });
+      doUpdate({
+        id: state.type.id,
+        data: {
+          label: data.label,
+          colorKey: data.colorKey,
+          iconKey: data.iconKey,
+          important: data.important,
+        },
+      });
     } else {
       const value = makeUniqueValue(data.label, types);
-      doCreate({ label: data.label, colorKey: data.colorKey, value });
+      doCreate({
+        label: data.label,
+        colorKey: data.colorKey,
+        iconKey: data.iconKey,
+        important: data.important,
+        value,
+      });
     }
   });
 

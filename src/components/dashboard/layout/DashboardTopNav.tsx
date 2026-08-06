@@ -14,11 +14,19 @@ export function DashboardTopNav() {
   const pageTitle =
     pathname === ROUTES.QUAN_LY_COT_VA_HINH
       ? t("dashboard.nav.memorialRecords")
-      : pathname === ROUTES.QUAN_LY_CAU_AN_VA_CAU_SIEU
-        ? t("dashboard.nav.prayerEvents")
-        : pathname === ROUTES.QUAN_LY_LOAI_LE
-          ? t("dashboard.nav.ceremonyTypes")
-          : t("dashboard.nav.home");
+      : pathname === ROUTES.LUU_TRU_COT_VA_HINH
+        ? t("dashboard.nav.memorialRecordsArchive")
+        : pathname === ROUTES.QUAN_LY_CAU_AN_VA_CAU_SIEU
+          ? t("dashboard.nav.prayerEvents")
+          : pathname === ROUTES.LUU_TRU_CAU_AN_VA_CAU_SIEU
+            ? t("dashboard.nav.prayerEventsArchive")
+            : pathname === ROUTES.QUAN_LY_LOAI_LE
+              ? t("dashboard.nav.ceremonyTypes")
+              : pathname === ROUTES.QUAN_LY_TIN_TUC
+                ? t("dashboard.nav.news")
+                : pathname === ROUTES.QUAN_LY_DANH_MUC
+                  ? t("dashboard.nav.newsCategories")
+                  : t("dashboard.nav.home");
 
   return (
     <header className="h-16 bg-white border-b border-gray-200 px-6 flex items-center justify-between">

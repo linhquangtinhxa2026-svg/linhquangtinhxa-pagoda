@@ -22,10 +22,11 @@ export function TimCotVaHinhContainer() {
     return () => clearTimeout(id);
   }, [searchInput]);
 
+  const hasSearched = !!search.trim();
   const { data, isFetching } = useTimCotVaHinh(page, search);
-  const isInitialLoading = isFetching && !data;
-  const hasResults = !!data && data.items.length > 0;
-  const hasNoResults = !isFetching && !!data && data.items.length === 0;
+  const isInitialLoading = hasSearched && isFetching && !data;
+  const hasResults = hasSearched && !!data && data.items.length > 0;
+  const hasNoResults = hasSearched && !isFetching && !!data && data.items.length === 0;
 
   return (
     <section className="bg-[#fdf8f0] py-16 sm:py-24 lg:py-32 min-h-screen">
@@ -38,6 +39,20 @@ export function TimCotVaHinhContainer() {
             label={t("timCotVaHinh.eyebrow")}
           />
         </div>
+
+        {!hasSearched && (
+          <div className="max-w-xl mx-auto flex flex-col items-center gap-6 border border-slate-200 bg-white p-12 sm:p-16 text-center animate-in fade-in zoom-in-95 duration-500 shadow-sm">
+            <div className="size-16 text-[#c4973a]/20">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5}>
+                <circle cx="11" cy="11" r="7" />
+                <path d="m21 21-4.3-4.3" />
+              </svg>
+            </div>
+            <p className="text-sm text-[#5a463d] leading-relaxed font-medium">
+              {t("timCotVaHinh.searchHint")}
+            </p>
+          </div>
+        )}
 
         {isInitialLoading && (
           <div className="flex flex-col items-center gap-4 py-24 animate-in fade-in duration-500">

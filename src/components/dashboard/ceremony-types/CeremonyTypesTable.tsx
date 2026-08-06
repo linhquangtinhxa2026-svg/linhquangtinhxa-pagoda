@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
-import { Inbox, Loader2, Pencil, Trash2 } from "lucide-react";
+import { Inbox, Loader2, Pencil, Star, Trash2 } from "lucide-react";
 
 import {
   Table,
@@ -14,6 +14,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { TypographySmall } from "@/components/ui/typography";
 import { getCeremonyTypeColorOption } from "@/lib/ceremonyTypeColors";
+import { getCeremonyTypeIconOption } from "@/lib/ceremonyTypeIcons";
 import type { CeremonyType } from "@/types/ceremonyType";
 
 interface CeremonyTypesTableProps {
@@ -58,6 +59,12 @@ export function CeremonyTypesTable({ items, isLoading, onEdit, onDelete }: Cerem
             <TableHead className="text-muted-foreground text-[11px] font-bold uppercase tracking-widest py-4 px-4">
               {t("ceremonyTypes.colLabel")}
             </TableHead>
+            <TableHead className="w-16 text-muted-foreground text-[11px] font-bold uppercase tracking-widest py-4 px-4">
+              {t("ceremonyTypes.colIcon")}
+            </TableHead>
+            <TableHead className="w-24 text-muted-foreground text-[11px] font-bold uppercase tracking-widest py-4 px-4">
+              {t("ceremonyTypes.colImportant")}
+            </TableHead>
             <TableHead className="text-muted-foreground text-[11px] font-bold uppercase tracking-widest text-right px-6">
               {t("ceremonyTypes.colActions")}
             </TableHead>
@@ -66,6 +73,7 @@ export function CeremonyTypesTable({ items, isLoading, onEdit, onDelete }: Cerem
         <TableBody>
           {items.map((item) => {
             const colorOption = getCeremonyTypeColorOption(item.colorKey);
+            const iconOption = getCeremonyTypeIconOption(item.iconKey);
             return (
               <TableRow
                 key={item.id}
@@ -76,6 +84,14 @@ export function CeremonyTypesTable({ items, isLoading, onEdit, onDelete }: Cerem
                 </TableCell>
                 <TableCell className="text-sm font-bold text-foreground px-4 py-4">
                   {item.label}
+                </TableCell>
+                <TableCell className="px-4 py-4">
+                  <iconOption.icon className="size-4.5 text-muted-foreground fill-current" />
+                </TableCell>
+                <TableCell className="px-4 py-4">
+                  {item.important && (
+                    <Star className="size-4.5 text-brand-gold fill-brand-gold" />
+                  )}
                 </TableCell>
                 <TableCell className="text-right px-6 py-4">
                   <div className="flex items-center justify-end gap-1.5">
