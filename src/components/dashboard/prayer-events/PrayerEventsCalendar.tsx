@@ -165,7 +165,7 @@ function PrayerEventsCalendarDay({
         if (e.key === "Enter" || e.key === " ") onSelect();
       }}
       className={cn(
-        "group relative flex flex-col items-center justify-center gap-0.5 aspect-square rounded-xl transition-all duration-150 cursor-pointer",
+        "group relative flex flex-col items-center justify-center gap-0.5 aspect-[4/5] sm:aspect-square rounded-xl transition-all duration-150 cursor-pointer",
         day.isCurrentMonth ? "text-foreground" : "text-muted-foreground/30",
         isSelected
           ? "bg-brand-gold text-white shadow-md shadow-brand-gold/20"
@@ -182,7 +182,7 @@ function PrayerEventsCalendarDay({
         }}
         aria-label={t("prayerEvents.addNew")}
         className={cn(
-          "absolute top-1 right-1 size-5 rounded-md flex items-center justify-center transition-all active:scale-90 cursor-pointer",
+          "hidden sm:flex absolute top-1 right-1 size-5 rounded-md items-center justify-center transition-all active:scale-90 cursor-pointer",
           isSelected
             ? "text-white hover:bg-white/20"
             : "text-brand-gold hover:bg-brand-gold/15",
