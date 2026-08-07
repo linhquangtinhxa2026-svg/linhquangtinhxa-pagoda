@@ -5,7 +5,7 @@ import type { PrayerEvent } from "@/types/prayerEvent";
 export const getPrayerEventsListService = async (): Promise<PrayerEvent[]> => {
   return pb.collection(COLLECTIONS.PRAYER_EVENTS).getFullList<PrayerEvent>({
     filter: "isArchived = false",
-    sort: "created",
+    sort: "-created",
     requestKey: null,
   });
 };
