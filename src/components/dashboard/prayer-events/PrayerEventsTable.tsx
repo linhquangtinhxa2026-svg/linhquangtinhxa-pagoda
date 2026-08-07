@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslation } from "react-i18next";
-import { Inbox, Loader2, Pencil, Trash2 } from "lucide-react";
+import { ArrowDown, ArrowUp, Inbox, Loader2, Pencil, Trash2 } from "lucide-react";
 
 import {
   Table,
@@ -31,12 +31,13 @@ interface PrayerEventsTableProps {
   selectedIds: Set<string>;
   onToggleRow: (id: string) => void;
   onToggleAll: () => void;
+  sortDir: "asc" | "desc";
+  onSortDirChange: (sortDir: "asc" | "desc") => void;
 }
 
 const COLUMNS = [
   "colType",
   "colRegistrant",
-  "colLunarDate",
   "colNotes",
 ] as const;
 
@@ -58,6 +59,8 @@ export function PrayerEventsTable({
   selectedIds,
   onToggleRow,
   onToggleAll,
+  sortDir,
+  onSortDirChange,
 }: PrayerEventsTableProps) {
   const { t } = useTranslation();
 
@@ -99,7 +102,48 @@ export function PrayerEventsTable({
                 aria-label={t("prayerEvents.selectAll")}
               />
             </TableHead>
-            {COLUMNS.map(col => (
+            {COLUMNS.slice(0, 2).map(col => (
+              <TableHead
+                key={col}
+                className="text-muted-foreground text-[11px] font-bold uppercase tracking-widest py-4 px-4"
+              >
+                {t(`prayerEvents.${col}`)}
+              </TableHead>
+            ))}
+            <TableHead className="text-muted-foreground text-[11px] font-bold uppercase tracking-widest py-4 px-4">
+              <div className="flex items-center gap-1.5">
+                {t("prayerEvents.colLunarDate")}
+                <div className="flex flex-col">
+                  <button
+                    type="button"
+                    onClick={() => onSortDirChange("asc")}
+                    aria-label={t("prayerEvents.sortAsc")}
+                    className={cn(
+                      "leading-none cursor-pointer transition-colors",
+                      sortDir === "asc"
+                        ? "text-brand-gold"
+                        : "text-muted-foreground/40 hover:text-muted-foreground"
+                    )}
+                  >
+                    <ArrowUp className="size-3" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => onSortDirChange("desc")}
+                    aria-label={t("prayerEvents.sortDesc")}
+                    className={cn(
+                      "leading-none cursor-pointer transition-colors",
+                      sortDir === "desc"
+                        ? "text-brand-gold"
+                        : "text-muted-foreground/40 hover:text-muted-foreground"
+                    )}
+                  >
+                    <ArrowDown className="size-3" />
+                  </button>
+                </div>
+              </div>
+            </TableHead>
+            {COLUMNS.slice(2).map(col => (
               <TableHead
                 key={col}
                 className="text-muted-foreground text-[11px] font-bold uppercase tracking-widest py-4 px-4"

@@ -510,7 +510,7 @@
   "prayerEvents": {
     "pageTitle": "管理祈福法会",
     "pageSubtitle": "管理精舍的求安与求超法会登记。",
-    "searchPlaceholder": "按姓名、备注搜索……",
+    "searchPlaceholder": "按姓名、备注、日期搜索……",
     "viewList": "列表",
     "viewCalendar": "日历",
     "filterByType": "按类型筛选",
@@ -568,7 +568,9 @@
     "importSuccess": "数据导入成功！",
     "importingTitle": "正在导入数据",
     "importingProgress": "正在导入 {{done}} / {{total}} 条记录……",
-    "importingHint": "请在导入完成前保持此标签页打开。"
+    "importingHint": "请在导入完成前保持此标签页打开。",
+    "sortAsc": "升序排序",
+    "sortDesc": "降序排序"
   },
   "prayerEventsArchive": {
     "pageTitle": "归档",

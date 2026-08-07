@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { TypographyH2, TypographyMuted } from "@/components/ui/typography";
 import { normalizeVietnamese } from "@/lib/vietnamese";
 import { toDateKey } from "@/lib/calendarGrid";
+import { formatLunarDateFull, getLunarDateFromIso } from "@/lib/lunarCalendar";
 import type { PrayerEvent } from "@/types/prayerEvent";
 import { usePrayerEventsList } from "./usePrayerEvents";
 import {
@@ -35,6 +36,7 @@ export function PrayerEventsContainer() {
   const [typeFilter, setTypeFilter] = useState<PrayerEventTypeFilter>("all");
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(DEFAULT_PER_PAGE);
+  const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
   const [selectedDateKey, setSelectedDateKey] = useState<string | null>(null);
 
   const [modalState, setModalState] = useState<PrayerEventModalState | null>(null);
@@ -56,7 +58,12 @@ export function PrayerEventsContainer() {
     const query = normalizeVietnamese(search);
     return events.filter((event) =>
       normalizeVietnamese(
-        [event.registrantName, event.note].join(" ")
+        [
+          event.registrantName,
+          event.note,
+          event.eventDate,
+          formatLunarDateFull(getLunarDateFromIso(event.eventDate)),
+        ].join(" ")
       ).includes(query)
     );
   }, [events, search]);
@@ -80,9 +87,20 @@ export function PrayerEventsContainer() {
     return map;
   }, [searchedEvents]);
 
-  const totalItems = filteredEvents.length;
+  const sortedEvents = useMemo(() => {
+    const sorted = [...filteredEvents].sort((a, b) => a.eventDate.localeCompare(b.eventDate));
+    if (sortDir === "desc") sorted.reverse();
+    return sorted;
+  }, [filteredEvents, sortDir]);
+
+  const totalItems = sortedEvents.length;
   const totalPages = Math.max(1, Math.ceil(totalItems / perPage));
-  const pagedEvents = filteredEvents.slice((page - 1) * perPage, page * perPage);
+  const pagedEvents = sortedEvents.slice((page - 1) * perPage, page * perPage);
+
+  const handleSortDirChange = (nextSortDir: "asc" | "desc") => {
+    setSortDir(nextSortDir);
+    setPage(1);
+  };
 
   const handlePerPageChange = (nextPerPage: number) => {
     setPerPage(nextPerPage);
@@ -197,6 +215,8 @@ export function PrayerEventsContainer() {
               selectedIds={selectedIds}
               onToggleRow={handleToggleRow}
               onToggleAll={handleToggleAll}
+              sortDir={sortDir}
+              onSortDirChange={handleSortDirChange}
             />
             {totalItems > 0 && (
               <div className="bg-white p-5 rounded-2xl border border-border shadow-sm">

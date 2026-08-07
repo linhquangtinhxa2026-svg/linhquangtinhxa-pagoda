@@ -510,7 +510,7 @@
   "prayerEvents": {
     "pageTitle": "Manage Prayer Ceremonies",
     "pageSubtitle": "Manage Cầu An and Cầu Siêu ceremony registrations at the temple.",
-    "searchPlaceholder": "Search by name, notes...",
+    "searchPlaceholder": "Search by name, notes, date...",
     "viewList": "List",
     "viewCalendar": "Calendar",
     "filterByType": "Filter by type",
@@ -568,7 +568,9 @@
     "importSuccess": "Data imported successfully!",
     "importingTitle": "Importing Data",
     "importingProgress": "Importing {{done}} / {{total}} records...",
-    "importingHint": "Please keep this tab open until the import finishes."
+    "importingHint": "Please keep this tab open until the import finishes.",
+    "sortAsc": "Sort ascending",
+    "sortDesc": "Sort descending"
   },
   "prayerEventsArchive": {
     "pageTitle": "Archive",

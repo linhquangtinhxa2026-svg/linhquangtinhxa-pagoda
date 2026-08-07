@@ -510,7 +510,7 @@
   "prayerEvents": {
     "pageTitle": "Quản Lý Cầu An và Cầu Siêu",
     "pageSubtitle": "Quản lý danh sách đăng ký lễ Cầu An và Cầu Siêu tại tịnh xá.",
-    "searchPlaceholder": "Tìm theo tên, ghi chú...",
+    "searchPlaceholder": "Tìm theo tên, ghi chú, ngày...",
     "viewList": "Danh Sách",
     "viewCalendar": "Lịch",
     "filterByType": "Lọc theo loại lễ",
@@ -567,7 +567,9 @@
     "importSuccess": "Nhập dữ liệu thành công!",
     "importingTitle": "Đang Nhập Dữ Liệu",
     "importingProgress": "Đang nhập {{done}} / {{total}} bản ghi...",
-    "importingHint": "Vui lòng giữ tab này mở cho đến khi nhập xong."
+    "importingHint": "Vui lòng giữ tab này mở cho đến khi nhập xong.",
+    "sortAsc": "Sắp xếp tăng dần",
+    "sortDesc": "Sắp xếp giảm dần"
   },
   "prayerEventsArchive": {
     "pageTitle": "Lưu Trữ",
