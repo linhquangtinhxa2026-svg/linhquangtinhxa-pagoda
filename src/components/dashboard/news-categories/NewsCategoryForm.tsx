@@ -64,7 +64,7 @@ export function NewsCategoryForm({ control }: NewsCategoryFormProps) {
         label={t("newsCategories.labelField")}
         placeholder={t("newsCategories.labelPlaceholder")}
       />
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <ColorField
           control={control}
           name="backgroundColor"

@@ -14,7 +14,12 @@ import { MediaUploadField } from "@/components/form/MediaUploadField";
 import { RichTextField } from "@/components/form/RichTextField";
 import { ROUTES } from "@/constants/routes";
 import { newsSchema, type NewsFormData } from "@/lib/schemas/news";
-import { useCreateNews, useNewsById, useUpdateNews, useUploadInlineMedia } from "./useNews";
+import {
+  useCreateNews,
+  useNewsById,
+  useUpdateNews,
+  useUploadInlineMedia,
+} from "./useNews";
 import { NewsMetaFields } from "./NewsMetaFields";
 
 interface NewsFormPageProps {
@@ -49,7 +54,9 @@ export function NewsFormPage({ newsId }: NewsFormPageProps) {
     onSuccess: goBack,
   });
   const isSaving = isCreating || isUpdating;
-  const [pendingAction, setPendingAction] = useState<"draft" | "publish" | null>(null);
+  const [pendingAction, setPendingAction] = useState<
+    "draft" | "publish" | null
+  >(null);
   const { uploadInlineMedia } = useUploadInlineMedia();
 
   const { control, handleSubmit, reset, setValue } = useForm<NewsFormData>({
@@ -157,7 +164,7 @@ export function NewsFormPage({ newsId }: NewsFormPageProps) {
           />
         </div>
 
-        <div className="flex items-center justify-end gap-3">
+        <div className="flex items-center md:justify-end gap-3 flex-wrap md:flex-nowrap justify-start">
           <Button
             type="button"
             variant="outline"
@@ -174,7 +181,9 @@ export function NewsFormPage({ newsId }: NewsFormPageProps) {
             className="h-11 px-6 rounded-xl border-border bg-white text-foreground/80 font-semibold hover:bg-muted/50 transition-all active:scale-95 flex items-center gap-2"
             onClick={onSaveDraft}
           >
-            {isSaving && pendingAction === "draft" && <Loader2 className="size-4 animate-spin" />}
+            {isSaving && pendingAction === "draft" && (
+              <Loader2 className="size-4 animate-spin" />
+            )}
             {t("news.saveDraft")}
           </Button>
           <Button
@@ -182,7 +191,9 @@ export function NewsFormPage({ newsId }: NewsFormPageProps) {
             disabled={isSaving}
             className="h-11 px-8 rounded-xl bg-brand-gold hover:bg-brand-gold-light text-white font-bold shadow-md shadow-brand-gold/10 active:scale-95 transition-all flex items-center gap-2"
           >
-            {isSaving && pendingAction === "publish" && <Loader2 className="size-4 animate-spin" />}
+            {isSaving && pendingAction === "publish" && (
+              <Loader2 className="size-4 animate-spin" />
+            )}
             {t("news.save")}
           </Button>
         </div>

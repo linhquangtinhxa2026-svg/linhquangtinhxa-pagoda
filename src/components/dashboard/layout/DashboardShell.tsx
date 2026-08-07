@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useSyncExternalStore } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 
 import { pb } from "@/lib/pocketbase";
@@ -12,6 +12,7 @@ import { DashboardTopNav } from "./DashboardTopNav";
 
 export function DashboardShell({ children }: { children: React.ReactNode }) {
   const router = useRouter();
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
   const isAuthenticated = useSyncExternalStore(
     (callback) => pb.authStore.onChange(callback),
@@ -51,10 +52,10 @@ export function DashboardShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen flex bg-[#F1F5F9]">
-      <DashboardSidebar />
-      <div className="flex-1 flex flex-col">
-        <DashboardTopNav />
-        <main className="flex-1 p-6">{children}</main>
+      <DashboardSidebar isOpen={isMobileNavOpen} onClose={() => setIsMobileNavOpen(false)} />
+      <div className="flex-1 flex flex-col min-w-0">
+        <DashboardTopNav onOpenMobileNav={() => setIsMobileNavOpen(true)} />
+        <main className="flex-1 p-4 sm:p-6">{children}</main>
       </div>
     </div>
   );

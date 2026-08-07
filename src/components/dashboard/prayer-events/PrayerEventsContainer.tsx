@@ -169,7 +169,7 @@ export function PrayerEventsContainer() {
             {t("prayerEvents.pageSubtitle")}
           </TypographyMuted>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           {selectedIds.size > 0 && (
             <Button
               type="button"

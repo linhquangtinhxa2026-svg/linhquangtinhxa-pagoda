@@ -20,7 +20,7 @@ export function MemorialRecordForm({ control }: MemorialRecordFormProps) {
         label={t("memorialRecords.fullNameLabel")}
         placeholder={t("memorialRecords.fullNamePlaceholder")}
       />
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <AdminInputField
           control={control}
           name="age_at_death"
@@ -35,7 +35,7 @@ export function MemorialRecordForm({ control }: MemorialRecordFormProps) {
           placeholder={t("memorialRecords.phonePlaceholder")}
         />
       </div>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <AdminInputField
           control={control}
           name="storage_location"

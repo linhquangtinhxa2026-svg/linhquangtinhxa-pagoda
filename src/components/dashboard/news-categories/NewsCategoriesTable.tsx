@@ -52,8 +52,8 @@ export function NewsCategoriesTable({
   }
 
   return (
-    <div className="relative overflow-hidden rounded-xl border border-border bg-white shadow-sm">
-      <Table>
+    <div className="relative overflow-x-auto rounded-xl border border-border bg-white shadow-sm">
+      <Table className="min-w-[640px]">
         <TableHeader>
           <TableRow className="bg-muted/40 hover:bg-muted/40 border-b border-border">
             <TableHead className="w-40 text-muted-foreground text-[11px] font-bold uppercase tracking-widest py-4 px-6">

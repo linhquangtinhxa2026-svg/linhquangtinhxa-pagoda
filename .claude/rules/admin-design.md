@@ -1,6 +1,6 @@
 # Admin Design System
 
-All pages and components under `src/app/admin/` and `src/components/admin/` follow a two-surface system: a dark slate sidebar + light content area. This is the agreed design direction — do not deviate from it.
+All pages and components under `src/app/trang-chu/` and `src/components/dashboard/` follow a two-surface system: a dark slate sidebar + light content area. This is the agreed design direction — do not deviate from it.
 
 ---
 
@@ -8,9 +8,9 @@ All pages and components under `src/app/admin/` and `src/components/admin/` foll
 
 | Surface | Value | Scope |
 |---------|-------|-------|
-| Sidebar | `bg-slate-800` (`#1e293b`) | `AdminSidebar` only |
+| Sidebar | `bg-slate-800` (`#1e293b`) | `DashboardSidebar` only |
 | Page background | `bg-[#F1F5F9]` | `admin/layout.tsx` main wrapper |
-| Top nav | `bg-white border-b border-gray-200` | `AdminTopNav` |
+| Top nav | `bg-white border-b border-gray-200` | `DashboardTopNav` |
 | Cards / panels | `bg-white border border-gray-200 shadow-sm` | All content cards |
 
 ---
@@ -139,7 +139,7 @@ Form field wrapper: `space-y-1.5` between label and input.
 
 ---
 
-## Top Nav (`AdminTopNav`)
+## Top Nav (`DashboardTopNav`)
 
 - Wrapper: `bg-white border-b border-gray-200 h-16 px-6`
 - Page title: `text-gray-800 text-base font-semibold`
@@ -243,7 +243,7 @@ Use `DropdownMenu` (shadcn/Base UI) for "add new item" when there are multiple t
 Each `DropdownMenuItem` shows a small color-coded icon badge (matching the block accent) beside the label.
 
 ### Reference implementation
-`src/components/admin/posts/ContentBlockEditor.tsx`
+No current feature uses this exact typed-block-list pattern (the news `content` field is a single rich-text `editor` field, not a list of typed blocks) — documented here as the template to follow if a future admin page needs one.
 
 ---
 
@@ -263,15 +263,24 @@ Each `DropdownMenuItem` shows a small color-coded icon badge (matching the block
 
 ---
 
+## Responsive
+
+The admin section supports iPad (768–1024px) and phone (~375–430px) widths. Uses Tailwind's default breakpoints — no custom `tailwind.config`/`@theme` breakpoint overrides exist in this project.
+
+- **Sidebar**: collapses to a slide-in drawer below `lg` (1024px), not `md` — iPad portrait (768px) needs the full-width drawer treatment since a fixed 256px sidebar would leave too little room for tables. Desktop `<aside>` uses `hidden lg:flex`; the mobile drawer uses `lg:hidden fixed inset-0 z-50` with a `bg-black/60` scrim and a `w-72 bg-slate-800` panel sliding in from the **left** (`-translate-x-full` → `translate-x-0`, `transition-transform duration-300 ease-in-out`) — mirrors the public site's `Navbar.tsx` mobile-menu shape, just anchored left instead of right to match where the desktop sidebar sits. The hamburger trigger (lucide `Menu`, `lg:hidden`) lives in `DashboardTopNav`, not the sidebar itself. Nav item rendering is extracted into a shared `NavLinks` sub-component so desktop and mobile don't duplicate the link list.
+- **Tables**: the card wrapper around every `<Table>` always uses `overflow-x-auto` — **never** `overflow-hidden`, which clips content instead of letting it scroll. Give the inner `<Table className="min-w-[...]">` an explicit minimum width sized to its column count (roughly `min-w-[640px]` for 4-5 columns, `min-w-[860px]` for 6-7, `min-w-[900-1000px]` for 8-9) so columns scroll horizontally on narrow viewports instead of getting squeezed illegible. The flex column containing `<main>` needs `min-w-0` (flex children don't shrink below their content's intrinsic width by default) for this scroll to actually engage rather than widening the whole page.
+- **Modal forms**: any paired-field row (e.g. two `AdminInputField`s side by side) uses `grid-cols-1 sm:grid-cols-2`, never a bare `grid-cols-2` — a fixed 2-column grid inside a `sm:max-w-md`/`sm:max-w-lg` dialog is too cramped on a 375px phone.
+- **Content padding**: dashboard `<main>` uses `p-4 sm:p-6` (not a flat `p-6`) to avoid eating margins on already-narrow viewports.
+- Page header rows already follow `flex flex-col md:flex-row md:items-end justify-between gap-6`; search/filter rows follow `flex flex-col sm:flex-row sm:items-center gap-4` — keep using these for any new admin page so it doesn't need a separate responsive pass later. Bulk-action button rows use `flex flex-wrap items-center gap-2` so multiple full-label buttons (e.g. "Restore Selected (3)") wrap instead of crowding.
+
 ## Reference implementations
 
 | File | What it shows |
 |------|---------------|
-| `src/components/admin/layout/AdminSidebar.tsx` | Dark slate sidebar, active state logic, coming-soon items |
-| `src/components/admin/layout/AdminTopNav.tsx` | Top nav, `getPageTitle()` breadcrumb pattern |
-| `src/app/admin/layout.tsx` | Two-surface layout wrapper, auth guard with `useSyncExternalStore` |
-| `src/components/admin/posts/PostsContainer.tsx` | Page header + CTA button + card wrapper pattern |
-| `src/components/admin/posts/PostsTable.tsx` | shadcn Table, `bg-gray-50` header, pill badges, icon action buttons |
-| `src/components/admin/posts/PostFormPage.tsx` | Multi-card form layout, input/label classes, back navigation |
-| `src/components/admin/posts/DeletePostDialog.tsx` | Confirmation dialog, white modal, red destructive pattern |
-| `src/components/admin/posts/ContentBlockEditor.tsx` | Typed list-item editor: color accent bars, badge labels, DropdownMenu add button, ghost icon buttons |
+| `src/components/dashboard/layout/DashboardSidebar.tsx` | Dark slate sidebar, active state logic, nested manage/archive children, responsive drawer (`hidden lg:flex` desktop + `lg:hidden` slide-in mobile panel) |
+| `src/components/dashboard/layout/DashboardTopNav.tsx` | Top nav, breadcrumb pattern, mobile hamburger trigger |
+| `src/components/dashboard/layout/DashboardShell.tsx` | Two-surface layout wrapper, auth guard with `useSyncExternalStore`, mobile-nav open state |
+| `src/components/dashboard/news/NewsContainer.tsx` | Page header + CTA button + card wrapper pattern |
+| `src/components/dashboard/news/NewsTable.tsx` | shadcn Table, `bg-gray-50` header, pill badges, icon action buttons, responsive horizontal scroll |
+| `src/components/dashboard/news/NewsFormPage.tsx` | Multi-card form layout, input/label classes, back navigation |
+| `src/components/dashboard/news/DeleteNewsDialog.tsx` | Confirmation dialog, white modal, red destructive pattern |
