@@ -23,6 +23,7 @@ export const BRANCH_PAGODAS: BranchPagoda[] = [
     image: "/images/branches/image-02.png",
     abbotName: "Đại Đức Thích Minh Chuẩn",
     address: "Xã Suối Nghệ, huyện Châu Đức, tỉnh Bà Rịa - Vũng Tàu",
+    phone: "0912.495.252",
   },
   {
     slug: "vung-tau",

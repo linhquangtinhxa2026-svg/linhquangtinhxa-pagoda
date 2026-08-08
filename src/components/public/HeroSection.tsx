@@ -18,7 +18,7 @@ export function HeroSection() {
         fill
         priority
         sizes="100vw"
-        className="object-cover object-center"
+        className="object-cover md:object-center object-[70%_0]"
       />
       <div className="absolute inset-0 bg-gradient-to-b from-[#1c0a0a]/80 via-[#1c0a0a]/60 to-[#1c0a0a]/90" />
 
