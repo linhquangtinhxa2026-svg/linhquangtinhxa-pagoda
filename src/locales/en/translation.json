@@ -647,8 +647,10 @@
     "actionError": "Something went wrong, please try again.",
     "duplicateError": "A ceremony type with this name already exists. Please choose a different name.",
     "iconField": "Icon",
+    "iconColorField": "Icon Color",
     "importantField": "Mark as important (shown on calendar)",
     "colIcon": "Icon",
+    "colIconColor": "Icon Color",
     "colImportant": "Important"
   },
   "news": {

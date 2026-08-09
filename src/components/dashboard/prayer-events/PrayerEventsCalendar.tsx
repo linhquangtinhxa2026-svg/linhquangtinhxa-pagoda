@@ -208,14 +208,16 @@ function PrayerEventsCalendarDay({
             className={cn(
               "size-3 rounded-full",
               isSelected ? "bg-white" : "bg-brand-gold",
+              importantType && "hidden sm:block",
             )}
           />
-          {ImportantIcon && (
+          {ImportantIcon && importantType && (
             <ImportantIcon
-              className={cn(
-                "size-4 fill-current",
-                isSelected ? "text-white" : "text-brand-gold",
-              )}
+              className="size-4"
+              style={{
+                color: importantType.iconColor,
+                fill: importantType.iconColor,
+              }}
             />
           )}
         </div>

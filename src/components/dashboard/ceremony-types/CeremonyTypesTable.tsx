@@ -50,7 +50,7 @@ export function CeremonyTypesTable({ items, isLoading, onEdit, onDelete }: Cerem
 
   return (
     <div className="relative overflow-x-auto rounded-xl border border-border bg-white shadow-sm">
-      <Table className="min-w-[640px]">
+      <Table className="min-w-[760px]">
         <TableHeader>
           <TableRow className="bg-muted/40 hover:bg-muted/40 border-b border-border">
             <TableHead className="w-16 text-muted-foreground text-[11px] font-bold uppercase tracking-widest py-4 px-6">
@@ -61,6 +61,9 @@ export function CeremonyTypesTable({ items, isLoading, onEdit, onDelete }: Cerem
             </TableHead>
             <TableHead className="w-16 text-muted-foreground text-[11px] font-bold uppercase tracking-widest py-4 px-4">
               {t("ceremonyTypes.colIcon")}
+            </TableHead>
+            <TableHead className="w-28 text-muted-foreground text-[11px] font-bold uppercase tracking-widest py-4 px-4">
+              {t("ceremonyTypes.colIconColor")}
             </TableHead>
             <TableHead className="w-24 text-muted-foreground text-[11px] font-bold uppercase tracking-widest py-4 px-4">
               {t("ceremonyTypes.colImportant")}
@@ -86,7 +89,21 @@ export function CeremonyTypesTable({ items, isLoading, onEdit, onDelete }: Cerem
                   {item.label}
                 </TableCell>
                 <TableCell className="px-4 py-4">
-                  <iconOption.icon className="size-4.5 text-muted-foreground fill-current" />
+                  <iconOption.icon
+                    className="size-4.5"
+                    style={{ color: item.iconColor, fill: item.iconColor }}
+                  />
+                </TableCell>
+                <TableCell className="px-4 py-4">
+                  <div className="flex items-center gap-2">
+                    <span
+                      className="inline-block size-3.5 rounded-full border border-border/40"
+                      style={{ backgroundColor: item.iconColor }}
+                    />
+                    <span className="text-xs font-mono text-muted-foreground">
+                      {item.iconColor}
+                    </span>
+                  </div>
                 </TableCell>
                 <TableCell className="px-4 py-4">
                   {item.important && (

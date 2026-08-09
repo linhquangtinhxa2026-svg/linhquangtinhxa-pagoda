@@ -645,8 +645,10 @@
     "actionError": "Có lỗi xảy ra, vui lòng thử lại.",
     "duplicateError": "Đã tồn tại loại lễ với tên này. Vui lòng chọn tên khác.",
     "iconField": "Biểu tượng",
+    "iconColorField": "Màu biểu tượng",
     "importantField": "Đánh dấu quan trọng (hiển thị trên lịch)",
     "colIcon": "Biểu tượng",
+    "colIconColor": "Màu biểu tượng",
     "colImportant": "Quan trọng"
   },
   "news": {

@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { AdminInputField } from "@/components/form/AdminInputField";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { CEREMONY_TYPE_COLOR_OPTIONS } from "@/lib/ceremonyTypeColors";
@@ -81,6 +82,37 @@ export function CeremonyTypeForm({ control }: CeremonyTypeFormProps) {
                   <option.icon className="size-4.5 fill-current" />
                 </button>
               ))}
+            </div>
+            {fieldState.error?.message && (
+              <p className="text-xs text-red-600">{t(fieldState.error.message)}</p>
+            )}
+          </div>
+        )}
+      />
+      <Controller
+        control={control}
+        name="iconColor"
+        render={({ field, fieldState }) => (
+          <div className="space-y-2">
+            <Label className="text-sm font-bold text-foreground/80 tracking-tight">
+              {t("ceremonyTypes.iconColorField")}
+            </Label>
+            <div className="flex items-center gap-2">
+              <input
+                type="color"
+                value={field.value || "#000000"}
+                onChange={(e) => field.onChange(e.target.value)}
+                className="size-11 rounded-lg border border-border/60 cursor-pointer p-1 bg-white"
+              />
+              <Input
+                value={field.value ?? ""}
+                onChange={(e) => field.onChange(e.target.value)}
+                placeholder="#000000"
+                className={cn(
+                  "h-11 rounded-xl bg-muted/5 border-border/60 transition-all font-mono",
+                  "focus-visible:border-brand-gold focus-visible:ring-brand-gold/20"
+                )}
+              />
             </div>
             {fieldState.error?.message && (
               <p className="text-xs text-red-600">{t(fieldState.error.message)}</p>

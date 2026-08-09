@@ -18,5 +18,6 @@ export interface CeremonyType {
   label: string;
   colorKey: CeremonyTypeColorKey;
   iconKey: CeremonyTypeIconKey;
+  iconColor: string; // hex color, e.g. "#c4973a"
   important: boolean;
 }

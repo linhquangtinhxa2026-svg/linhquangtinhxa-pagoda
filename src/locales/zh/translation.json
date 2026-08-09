@@ -647,8 +647,10 @@
     "actionError": "发生错误，请重试。",
     "duplicateError": "已存在同名的法会类型，请选择其他名称。",
     "iconField": "图标",
+    "iconColorField": "图标颜色",
     "importantField": "标记为重要（显示在日历上）",
     "colIcon": "图标",
+    "colIconColor": "图标颜色",
     "colImportant": "重要"
   },
   "news": {

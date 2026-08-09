@@ -34,6 +34,7 @@ const baseDefaultValues: CeremonyTypeFormData = {
   label: "",
   colorKey: "emerald",
   iconKey: "flame",
+  iconColor: "#c4973a",
   important: false,
 };
 
@@ -67,6 +68,7 @@ export function CeremonyTypeModal({ state, onClose }: CeremonyTypeModalProps) {
         label: state.type.label,
         colorKey: state.type.colorKey,
         iconKey: state.type.iconKey,
+        iconColor: state.type.iconColor,
         important: state.type.important,
       });
     } else {
@@ -85,6 +87,7 @@ export function CeremonyTypeModal({ state, onClose }: CeremonyTypeModalProps) {
           label: data.label,
           colorKey: data.colorKey,
           iconKey: data.iconKey,
+          iconColor: data.iconColor,
           important: data.important,
         },
       });
@@ -94,6 +97,7 @@ export function CeremonyTypeModal({ state, onClose }: CeremonyTypeModalProps) {
         label: data.label,
         colorKey: data.colorKey,
         iconKey: data.iconKey,
+        iconColor: data.iconColor,
         important: data.important,
         value,
       });
