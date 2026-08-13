@@ -132,12 +132,12 @@
     "eyebrow": "Through The Years",
     "title": "Glimpses Of",
     "titleEmphasis": "Linh Quang",
-    "gateAlt": "Cổng Tam Quan Tịnh Xá Linh Quang thời kỳ đầu",
-    "roofAlt": "Mái ngói chánh điện Tịnh Xá Linh Quang",
-    "wallAlt": "Khuôn viên và tường bao Tịnh Xá Linh Quang",
-    "streetAlt": "Lối vào Tịnh Xá Linh Quang trong mùa lễ hội",
-    "sanctuaryAlt": "Chánh điện thờ Phật tại Tịnh Xá Linh Quang",
-    "facadeAlt": "Mặt tiền Tịnh Xá Linh Quang"
+    "media02Alt": "Tịnh Xá Linh Quang photo 2",
+    "media04Alt": "Tịnh Xá Linh Quang photo 4",
+    "media05Alt": "Tịnh Xá Linh Quang photo 5",
+    "media07Alt": "Tịnh Xá Linh Quang photo 7",
+    "media09Alt": "Tịnh Xá Linh Quang photo 9",
+    "media10Alt": "Tịnh Xá Linh Quang photo 10"
   },
   "visitPage": {
     "eyebrow": "Plan Your Visit",
@@ -248,12 +248,16 @@
     "titleEmphasis": "Linh Quang",
     "subtitle": "From the quiet stone gate to the glow of festival lanterns — a glimpse of daily and ceremonial life at the temple.",
     "cta": "View Full Gallery",
-    "gateAlt": "Cổng Tam Quan Tịnh Xá Linh Quang",
-    "facadeAlt": "Mặt tiền Tịnh Xá Linh Quang",
-    "sanctuaryAlt": "Chánh điện thờ Phật tại Tịnh Xá Linh Quang",
-    "festivalAlt": "Tịnh Xá Linh Quang trong mùa lễ hội",
-    "shrineAlt": "Bàn thờ Phật tại Tịnh Xá Linh Quang",
-    "groundsAlt": "Không gian thanh tịnh quanh Tịnh Xá Linh Quang"
+    "media01Alt": "Tịnh Xá Linh Quang photo 1",
+    "media02Alt": "Tịnh Xá Linh Quang photo 2",
+    "media03Alt": "Tịnh Xá Linh Quang photo 3",
+    "media04Alt": "Tịnh Xá Linh Quang photo 4",
+    "media05Alt": "Tịnh Xá Linh Quang photo 5",
+    "media06Alt": "Tịnh Xá Linh Quang photo 6",
+    "media07Alt": "Tịnh Xá Linh Quang photo 7",
+    "media08Alt": "Tịnh Xá Linh Quang photo 8",
+    "media09Alt": "Tịnh Xá Linh Quang photo 9",
+    "media10Alt": "Tịnh Xá Linh Quang photo 10"
   },
   "visitTeaser": {
     "subtitle": "Whether you're coming to pray, to volunteer, or simply to find a quiet moment, Tịnh xá Linh Quang welcomes you daily from 6:00 AM to 8:00 PM.",
@@ -342,7 +346,10 @@
     "titleEmphasis": "Linh Quang",
     "gateAlt": "Cổng Tam Quan Tịnh Xá Linh Quang",
     "hallAlt": "Chánh điện Tịnh Xá Linh Quang",
-    "courtyardAlt": "Khuôn viên Tịnh Xá Linh Quang"
+    "courtyardAlt": "Khuôn viên Tịnh Xá Linh Quang",
+    "media01Alt": "Tịnh Xá Linh Quang photo 1",
+    "media03Alt": "Tịnh Xá Linh Quang photo 3",
+    "media08Alt": "Tịnh Xá Linh Quang photo 8"
   },
   "branchPagodas": {
     "eyebrow": "Our Temple Network",

@@ -9,6 +9,9 @@ const GALLERY_IMAGES = [
   { src: "/images/lien-he/pagoda-gate.jpg", key: "gate" },
   { src: "/images/new-histories/image-06.png", key: "hall" },
   { src: "/images/new-histories/image-01.jpg", key: "courtyard" },
+  { src: "/images/media/image_01.png", key: "media01" },
+  { src: "/images/media/image_03.png", key: "media03" },
+  { src: "/images/media/image_08.png", key: "media08" },
 ] as const;
 
 export function PagodaGallery() {

@@ -132,12 +132,12 @@
     "eyebrow": "岁月留痕",
     "title": "灵光精舍",
     "titleEmphasis": "掠影",
-    "gateAlt": "灵光精舍早期三门",
-    "roofAlt": "灵光精舍大殿屋顶",
-    "wallAlt": "灵光精舍庭院与围墙",
-    "streetAlt": "节庆期间的灵光精舍入口",
-    "sanctuaryAlt": "灵光精舍供佛大殿",
-    "facadeAlt": "灵光精舍正面"
+    "media02Alt": "灵光精舍照片 2",
+    "media04Alt": "灵光精舍照片 4",
+    "media05Alt": "灵光精舍照片 5",
+    "media07Alt": "灵光精舍照片 7",
+    "media09Alt": "灵光精舍照片 9",
+    "media10Alt": "灵光精舍照片 10"
   },
   "visitPage": {
     "eyebrow": "参访规划",
@@ -248,12 +248,16 @@
     "titleEmphasis": "时光片段",
     "subtitle": "从静谧的石门到节庆的灯笼光影——一窥精舍日常与法会生活。",
     "cta": "查看完整图库",
-    "gateAlt": "灵光精舍三门",
-    "facadeAlt": "灵光精舍正面",
-    "sanctuaryAlt": "灵光精舍供佛大殿",
-    "festivalAlt": "节庆期间的灵光精舍",
-    "shrineAlt": "灵光精舍佛坛",
-    "groundsAlt": "灵光精舍周边的清净空间"
+    "media01Alt": "灵光精舍照片 1",
+    "media02Alt": "灵光精舍照片 2",
+    "media03Alt": "灵光精舍照片 3",
+    "media04Alt": "灵光精舍照片 4",
+    "media05Alt": "灵光精舍照片 5",
+    "media06Alt": "灵光精舍照片 6",
+    "media07Alt": "灵光精舍照片 7",
+    "media08Alt": "灵光精舍照片 8",
+    "media09Alt": "灵光精舍照片 9",
+    "media10Alt": "灵光精舍照片 10"
   },
   "visitTeaser": {
     "subtitle": "无论您是前来礼佛、志愿服务，还是单纯寻求片刻宁静，灵光精舍每日上午6:00至晚上8:00欢迎您的到来。",
@@ -342,7 +346,10 @@
     "titleEmphasis": "掠影",
     "gateAlt": "灵光精舍三门",
     "hallAlt": "灵光精舍大殿",
-    "courtyardAlt": "灵光精舍庭院"
+    "courtyardAlt": "灵光精舍庭院",
+    "media01Alt": "灵光精舍照片 1",
+    "media03Alt": "灵光精舍照片 3",
+    "media08Alt": "灵光精舍照片 8"
   },
   "branchPagodas": {
     "eyebrow": "精舍网络",

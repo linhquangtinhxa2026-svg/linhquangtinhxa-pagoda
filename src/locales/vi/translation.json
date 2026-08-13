@@ -133,12 +133,12 @@
     "eyebrow": "Dấu Ấn Thời Gian",
     "title": "Hình Ảnh",
     "titleEmphasis": "Linh Quang",
-    "gateAlt": "Cổng Tam Quan Tịnh Xá Linh Quang thời kỳ đầu",
-    "roofAlt": "Mái ngói chánh điện Tịnh Xá Linh Quang",
-    "wallAlt": "Khuôn viên và tường bao Tịnh Xá Linh Quang",
-    "streetAlt": "Lối vào Tịnh Xá Linh Quang trong mùa lễ hội",
-    "sanctuaryAlt": "Chánh điện thờ Phật tại Tịnh Xá Linh Quang",
-    "facadeAlt": "Mặt tiền Tịnh Xá Linh Quang"
+    "media02Alt": "Hình ảnh Tịnh Xá Linh Quang 2",
+    "media04Alt": "Hình ảnh Tịnh Xá Linh Quang 4",
+    "media05Alt": "Hình ảnh Tịnh Xá Linh Quang 5",
+    "media07Alt": "Hình ảnh Tịnh Xá Linh Quang 7",
+    "media09Alt": "Hình ảnh Tịnh Xá Linh Quang 9",
+    "media10Alt": "Hình ảnh Tịnh Xá Linh Quang 10"
   },
   "visitPage": {
     "eyebrow": "Kế Hoạch Ghé Thăm",
@@ -249,12 +249,16 @@
     "titleEmphasis": "Linh Quang",
     "subtitle": "Từ cổng tam quan trầm mặc đến ánh đèn lồng mùa lễ hội — đôi nét về đời sống thường nhật và các nghi lễ tại tịnh xá.",
     "cta": "Xem Toàn Bộ Hình Ảnh",
-    "gateAlt": "Cổng Tam Quan Tịnh Xá Linh Quang",
-    "facadeAlt": "Mặt tiền Tịnh Xá Linh Quang",
-    "sanctuaryAlt": "Chánh điện thờ Phật tại Tịnh Xá Linh Quang",
-    "festivalAlt": "Tịnh Xá Linh Quang trong mùa lễ hội",
-    "shrineAlt": "Bàn thờ Phật tại Tịnh Xá Linh Quang",
-    "groundsAlt": "Không gian thanh tịnh quanh Tịnh Xá Linh Quang"
+    "media01Alt": "Hình ảnh Tịnh Xá Linh Quang 1",
+    "media02Alt": "Hình ảnh Tịnh Xá Linh Quang 2",
+    "media03Alt": "Hình ảnh Tịnh Xá Linh Quang 3",
+    "media04Alt": "Hình ảnh Tịnh Xá Linh Quang 4",
+    "media05Alt": "Hình ảnh Tịnh Xá Linh Quang 5",
+    "media06Alt": "Hình ảnh Tịnh Xá Linh Quang 6",
+    "media07Alt": "Hình ảnh Tịnh Xá Linh Quang 7",
+    "media08Alt": "Hình ảnh Tịnh Xá Linh Quang 8",
+    "media09Alt": "Hình ảnh Tịnh Xá Linh Quang 9",
+    "media10Alt": "Hình ảnh Tịnh Xá Linh Quang 10"
   },
   "visitTeaser": {
     "subtitle": "Dù bạn đến để chiêm bái, thiện nguyện, hay chỉ đơn giản tìm một khoảng lặng, Tịnh xá Linh Quang luôn chào đón bạn mỗi ngày từ 06:00 đến 20:00.",
@@ -343,7 +347,10 @@
     "titleEmphasis": "Linh Quang",
     "gateAlt": "Cổng Tam Quan Tịnh Xá Linh Quang",
     "hallAlt": "Chánh điện Tịnh Xá Linh Quang",
-    "courtyardAlt": "Khuôn viên Tịnh Xá Linh Quang"
+    "courtyardAlt": "Khuôn viên Tịnh Xá Linh Quang",
+    "media01Alt": "Hình ảnh Tịnh Xá Linh Quang 1",
+    "media03Alt": "Hình ảnh Tịnh Xá Linh Quang 3",
+    "media08Alt": "Hình ảnh Tịnh Xá Linh Quang 8"
   },
   "branchPagodas": {
     "eyebrow": "Tổ Đình Linh Quang",

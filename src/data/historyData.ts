@@ -54,10 +54,10 @@ export const HISTORY_ERAS: Record<
 export const HISTORY_LINEAGE_IMAGE = "/images/histories/history-05.webp";
 
 export const HISTORY_GALLERY_IMAGES = [
-  { key: "gate", src: "/images/histories/history-01.webp" },
-  { key: "roof", src: "/images/histories/history-02.jpg" },
-  { key: "wall", src: "/images/histories/history-03.jpg" },
-  { key: "street", src: "/images/histories/history-04.webp" },
-  { key: "sanctuary", src: "/images/histories/history-05.webp" },
-  { key: "facade", src: "/images/lien-he/pagoda-overview.webp" },
+  { key: "media02", src: "/images/media/image_02.png" },
+  { key: "media04", src: "/images/media/image_04.png" },
+  { key: "media05", src: "/images/media/image_05.png" },
+  { key: "media07", src: "/images/media/image_07.png" },
+  { key: "media09", src: "/images/media/image_09.png" },
+  { key: "media10", src: "/images/media/image_10.png" },
 ] as const;

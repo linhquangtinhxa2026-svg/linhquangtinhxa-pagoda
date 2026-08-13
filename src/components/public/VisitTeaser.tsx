@@ -11,7 +11,7 @@ export function VisitTeaser() {
 
   return (
     <section className="bg-[#fdf8f0]">
-      <div className="relative h-64 sm:h-80">
+      {/* <div className="relative h-64 sm:h-80">
         <Image
           src="/images/new-histories/image-01.jpg"
           alt="Ghé thăm Tịnh xá Linh Quang"
@@ -20,7 +20,7 @@ export function VisitTeaser() {
           className="object-cover object-center"
         />
         <div className="absolute inset-0 bg-[#1c0a0a]/50" />
-      </div>
+      </div> */}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
         <span className="text-xs sm:text-sm tracking-[0.4em] uppercase font-medium text-[#c4973a]">
@@ -31,7 +31,9 @@ export function VisitTeaser() {
           style={{ fontFamily: "var(--font-serif)" }}
         >
           {t("visit.title")}{" "}
-          <span className="text-[#c4973a] italic">{t("visit.titleEmphasis")}</span>
+          <span className="text-[#c4973a] italic">
+            {t("visit.titleEmphasis")}
+          </span>
         </h2>
         <p className="mt-4 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed text-[#2c1810]/60">
           {t("visitTeaser.subtitle")}
@@ -55,7 +57,9 @@ export function VisitTeaser() {
             <p className="text-xs tracking-widest uppercase font-semibold text-[#c4973a]">
               {t("visit.hoursLabel")}
             </p>
-            <p className="mt-1 text-base text-[#2c1810]/70">{t("visit.hours")}</p>
+            <p className="mt-1 text-base text-[#2c1810]/70">
+              {t("visit.hours")}
+            </p>
           </div>
         </div>
 

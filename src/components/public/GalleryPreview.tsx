@@ -8,12 +8,16 @@ import { ROUTES } from "@/constants/routes";
 import { Lightbox } from "@/components/public/Lightbox";
 
 const GALLERY_PREVIEW_IMAGES = [
-  { key: "gate", src: "/images/lien-he/pagoda-gate.jpg" },
-  { key: "facade", src: "/images/lien-he/pagoda-overview.webp" },
-  { key: "sanctuary", src: "/images/visit/visit-01.webp" },
-  { key: "festival", src: "/images/histories/history-04.webp" },
-  { key: "shrine", src: "/images/histories/history-05.webp" },
-  { key: "grounds", src: "/images/new-histories/image-01.jpg" },
+  { key: "media01", src: "/images/media/image_01.png" },
+  { key: "media02", src: "/images/media/image_02.png" },
+  { key: "media03", src: "/images/media/image_03.png" },
+  { key: "media04", src: "/images/media/image_04.png" },
+  { key: "media05", src: "/images/media/image_05.png" },
+  { key: "media06", src: "/images/media/image_06.png" },
+  { key: "media07", src: "/images/media/image_07.png" },
+  { key: "media08", src: "/images/media/image_08.png" },
+  { key: "media09", src: "/images/media/image_09.png" },
+  { key: "media10", src: "/images/media/image_10.png" },
 ] as const;
 
 export function GalleryPreview() {
