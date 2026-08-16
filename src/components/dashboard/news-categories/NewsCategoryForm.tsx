@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { AdminInputField } from "@/components/form/AdminInputField";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
+import { capitalizeWords, cn } from "@/lib/utils";
 import type { NewsCategoryFormData } from "@/lib/schemas/newsCategory";
 
 interface NewsCategoryFormProps {
@@ -63,6 +63,7 @@ export function NewsCategoryForm({ control }: NewsCategoryFormProps) {
         name="label"
         label={t("newsCategories.labelField")}
         placeholder={t("newsCategories.labelPlaceholder")}
+        onChangeTransform={capitalizeWords}
       />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <ColorField

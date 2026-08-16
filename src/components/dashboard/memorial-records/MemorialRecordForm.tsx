@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 
 import { AdminInputField } from "@/components/form/AdminInputField";
 import { AdminTextareaField } from "@/components/form/AdminTextareaField";
+import { capitalizeWords } from "@/lib/utils";
 import type { MemorialRecordFormData } from "@/lib/schemas/memorialRecord";
 
 interface MemorialRecordFormProps {
@@ -19,6 +20,7 @@ export function MemorialRecordForm({ control }: MemorialRecordFormProps) {
         name="full_name"
         label={t("memorialRecords.fullNameLabel")}
         placeholder={t("memorialRecords.fullNamePlaceholder")}
+        onChangeTransform={capitalizeWords}
       />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <AdminInputField
@@ -41,12 +43,14 @@ export function MemorialRecordForm({ control }: MemorialRecordFormProps) {
           name="storage_location"
           label={t("memorialRecords.storageLocationLabel")}
           placeholder={t("memorialRecords.storageLocationPlaceholder")}
+          onChangeTransform={capitalizeWords}
         />
         <AdminInputField
           control={control}
           name="display_location"
           label={t("memorialRecords.displayLocationLabel")}
           placeholder={t("memorialRecords.displayLocationPlaceholder")}
+          onChangeTransform={capitalizeWords}
         />
       </div>
       <AdminTextareaField
@@ -54,6 +58,7 @@ export function MemorialRecordForm({ control }: MemorialRecordFormProps) {
         name="private_info"
         label={t("memorialRecords.notesLabel")}
         placeholder={t("memorialRecords.notesPlaceholder")}
+        onChangeTransform={capitalizeWords}
       />
     </div>
   );

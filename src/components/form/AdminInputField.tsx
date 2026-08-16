@@ -14,6 +14,7 @@ interface AdminInputFieldProps<T extends FieldValues> {
   placeholder?: string;
   type?: string;
   className?: string;
+  onChangeTransform?: (value: string) => string;
 }
 
 export function AdminInputField<T extends FieldValues>({
@@ -23,6 +24,7 @@ export function AdminInputField<T extends FieldValues>({
   placeholder,
   type = "text",
   className,
+  onChangeTransform,
 }: AdminInputFieldProps<T>) {
   const { t } = useTranslation();
 
@@ -38,6 +40,10 @@ export function AdminInputField<T extends FieldValues>({
             value={field.value ?? ""}
             type={type}
             placeholder={placeholder}
+            onChange={(e) => {
+              const nextValue = onChangeTransform ? onChangeTransform(e.target.value) : e.target.value;
+              field.onChange(nextValue);
+            }}
             className={cn(
               "h-11 rounded-xl bg-muted/5 border-border/60 transition-all",
               amberFocus

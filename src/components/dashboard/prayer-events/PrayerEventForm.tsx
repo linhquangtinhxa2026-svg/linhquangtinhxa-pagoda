@@ -7,6 +7,7 @@ import { AdminSelectField } from "@/components/form/AdminSelectField";
 import { AdminDatePickerField } from "@/components/form/AdminDatePickerField";
 import { convertSolar2Lunar, formatLunarDate, formatLunarDateFull, getLunarDateFromIso } from "@/lib/lunarCalendar";
 import { useCeremonyTypesList } from "@/hooks/dashboard/useCeremonyTypes";
+import { capitalizeWords } from "@/lib/utils";
 import type { PrayerEventFormData } from "@/lib/schemas/prayerEvent";
 
 interface PrayerEventFormProps {
@@ -39,6 +40,7 @@ export function PrayerEventForm({ control }: PrayerEventFormProps) {
           name="registrantName"
           label={t("prayerEvents.registrantLabel")}
           placeholder={t("prayerEvents.registrantPlaceholder")}
+          onChangeTransform={capitalizeWords}
         />
         <div className="space-y-2">
           <AdminDatePickerField
@@ -61,6 +63,7 @@ export function PrayerEventForm({ control }: PrayerEventFormProps) {
         name="note"
         label={t("prayerEvents.notesLabel")}
         placeholder={t("prayerEvents.notesPlaceholder")}
+        onChangeTransform={capitalizeWords}
       />
     </div>
   );

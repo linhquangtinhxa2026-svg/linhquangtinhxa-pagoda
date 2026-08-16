@@ -14,6 +14,7 @@ interface AdminTextareaFieldProps<T extends FieldValues> {
   placeholder?: string;
   rows?: number;
   className?: string;
+  onChangeTransform?: (value: string) => string;
 }
 
 export function AdminTextareaField<T extends FieldValues>({
@@ -23,6 +24,7 @@ export function AdminTextareaField<T extends FieldValues>({
   placeholder,
   rows = 4,
   className,
+  onChangeTransform,
 }: AdminTextareaFieldProps<T>) {
   const { t } = useTranslation();
 
@@ -37,6 +39,10 @@ export function AdminTextareaField<T extends FieldValues>({
             {...field}
             rows={rows}
             placeholder={placeholder}
+            onChange={(e) => {
+              const nextValue = onChangeTransform ? onChangeTransform(e.target.value) : e.target.value;
+              field.onChange(nextValue);
+            }}
             className={cn(
               "rounded-xl bg-muted/5 border-border/60 transition-all min-h-[120px]",
               amberFocus

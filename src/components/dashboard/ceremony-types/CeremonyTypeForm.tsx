@@ -5,7 +5,7 @@ import { AdminInputField } from "@/components/form/AdminInputField";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
+import { capitalizeWords, cn } from "@/lib/utils";
 import { CEREMONY_TYPE_COLOR_OPTIONS } from "@/lib/ceremonyTypeColors";
 import { CEREMONY_TYPE_ICON_OPTIONS } from "@/lib/ceremonyTypeIcons";
 import type { CeremonyTypeFormData } from "@/lib/schemas/ceremonyType";
@@ -24,6 +24,7 @@ export function CeremonyTypeForm({ control }: CeremonyTypeFormProps) {
         name="label"
         label={t("ceremonyTypes.labelField")}
         placeholder={t("ceremonyTypes.labelPlaceholder")}
+        onChangeTransform={capitalizeWords}
       />
       <Controller
         control={control}
