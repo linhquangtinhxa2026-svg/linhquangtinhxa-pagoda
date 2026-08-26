@@ -23,7 +23,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const news = await getPublishedNewsListService();
   const newsRoutes: MetadataRoute.Sitemap = news.map((item) => ({
     url: `${SITE_URL}/tin-tuc/${item.slug}`,
-    lastModified: item.publishedAt || item.updated,
+    lastModified: new Date(item.publishedAt || item.updated),
     changeFrequency: "monthly",
     priority: 0.6,
   }));
