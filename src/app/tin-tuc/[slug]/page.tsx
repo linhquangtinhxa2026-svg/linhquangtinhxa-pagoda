@@ -26,21 +26,26 @@ export async function generateMetadata({
   const post = await getNewsBySlugService(slug);
 
   if (!post) {
-    return { title: "Không Tìm Thấy Bài Viết | Tịnh Xá Linh Quang" };
+    return { title: "Không Tìm Thấy Bài Viết" };
   }
 
-  const title = `${post.title} | Tịnh Xá Linh Quang`;
   const url = `${await getSiteUrl()}${ROUTES.NEWS}/${post.slug}`;
 
   return {
-    title,
+    title: post.title,
     description: post.description,
     openGraph: {
-      title,
+      title: post.title,
       description: post.description,
       type: "article",
       url,
       images: post.coverImageUrl ? [{ url: post.coverImageUrl }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.description,
+      images: post.coverImageUrl ? [post.coverImageUrl] : undefined,
     },
   };
 }

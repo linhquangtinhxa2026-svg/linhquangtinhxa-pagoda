@@ -21,11 +21,26 @@ export async function generateMetadata({
   const masterKey = getMasterKeyBySlug(slug);
 
   if (!masterKey) {
-    return { title: "Không Tìm Thấy | Tịnh Xá Linh Quang" };
+    return { title: "Không Tìm Thấy" };
   }
 
+  const master = MASTERS[masterKey];
+  const description = `${master.name} (${master.years}) - Chư Tôn Đức Linh Quang Tịnh Xá.`;
+
   return {
-    title: `${MASTERS[masterKey].name} | Tịnh Xá Linh Quang`,
+    title: master.name,
+    description,
+    openGraph: {
+      title: master.name,
+      description,
+      images: [{ url: master.image }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: master.name,
+      description,
+      images: [master.image],
+    },
   };
 }
 
